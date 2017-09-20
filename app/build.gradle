@@ -1,10 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
-        applicationId "com.example.beast.chatbot"
+        applicationId "com.chatterbox"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
@@ -13,37 +13,52 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+        debug{
+
         }
     }
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
+        exclude "META-INF/DEPENDENCIES.txt"
+        exclude "META-INF/LICENSE.txt"
+        exclude "META-INF/NOTICE.txt"
+        exclude "META-INF/NOTICE"
+        exclude "META-INF/LICENSE"
+        exclude "META-INF/DEPENDENCIES"
+        exclude "META-INF/notice.txt"
+        exclude "META-INF/license.txt"
+        exclude "META-INF/dependencies.txt"
+        exclude "META-INF/LGPL2.1"
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    // ********************* SUPPORT LIBRARY ******************************
+    implementation "com.android.support:appcompat-v7:26.1.0"
+    implementation "com.android.support:recyclerview-v7:26.1.0"
+
+    // *********************** FIREBASE DEPENDENCIES *********************
+    implementation "com.google.firebase:firebase-database:11.4.0"
+    implementation "com.firebaseui:firebase-ui-database:2.3.0"
+
+    // ************** API AI ******************
+    implementation "ai.api:sdk:2.0.7@aar"
+    implementation "ai.api:libai:1.4.8"
+
+    // ****************** GSON ************************
+    implementation "com.google.code.gson:gson:2.8.1"
+
+    // **************** COMMONS **********************
+    implementation "commons-io:commons-io:2.4"
+
+    // ******************* TEST DEPENDENCIES ***************************
+    testImplementation "junit:junit:4.12"
+    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2", {
+        exclude group: "com.android.support", module: "support-annotations"
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:recyclerview-v7:26.+'
-    compile 'com.google.firebase:firebase-database:11.2.2'
-    compile 'com.firebaseui:firebase-ui-database:2.3.0'
-    compile 'ai.api:sdk:2.0.7@aar'
-    compile 'ai.api:libai:1.4.8'
-    compile 'com.google.code.gson:gson:2.3.1'
-    compile 'commons-io:commons-io:2.4'
-    testCompile 'junit:junit:4.12'
 }
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"
