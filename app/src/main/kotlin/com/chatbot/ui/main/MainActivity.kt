@@ -1,8 +1,12 @@
-package com.chatbot
+package com.chatbot.ui.main
 
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-
+import ai.api.AIDataService
+import ai.api.AIListener
+import ai.api.AIServiceException
+import ai.api.android.AIConfiguration
+import ai.api.android.AIService
+import ai.api.model.AIRequest
+import ai.api.model.AIResponse
 import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
@@ -18,42 +22,30 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.RelativeLayout
-
+import com.chatbot.BuildConfig
+import com.chatbot.ChatMessage
+import com.chatbot.ChatViewHolder
+import com.chatbot.R
 import com.firebase.ui.database.FirebaseRecyclerAdapter
-
-import ai.api.AIDataService
-import ai.api.AIListener
-import ai.api.AIServiceException
-import ai.api.android.AIConfiguration
-import ai.api.android.AIService
-import ai.api.model.AIRequest
-import ai.api.model.AIResponse
-import ai.api.model.Result
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), AIListener {
 
-    // internal var editText: EditText
-    // internal var addBtn: RelativeLayout
-    lateinit var  ref: DatabaseReference
+    lateinit var ref: DatabaseReference
     lateinit var adapter: FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>
     internal var flagFab: Boolean? = true
 
-    private var aiService: AIService? = null
+    lateinit var aiService: AIService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
-
-
-        // editText = findViewById<View>(R.id.editText) as EditText
-        // addBtn = findViewById<View>(R.id.addBtn) as RelativeLayout
 
         recyclerView.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -63,18 +55,16 @@ class MainActivity : AppCompatActivity(), AIListener {
         ref = FirebaseDatabase.getInstance().reference
         ref.keepSynced(true)
 
-        val config = AIConfiguration("0c01e159babc4349b38eca698bd2f107",
-                AIConfiguration.SupportedLanguages.English,
+        val config = AIConfiguration(BuildConfig.API_AI_CLIENT_ACCESS_TOKEN,
+                ai.api.AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System)
 
         aiService = AIService.getService(this, config)
-        aiService!!.setListener(this)
+        aiService.setListener(this)
 
         val aiDataService = AIDataService(config)
 
         val aiRequest = AIRequest()
-
-
 
         addBtn.setOnClickListener {
             val message = editText.text.toString().trim { it <= ' ' }
@@ -108,7 +98,7 @@ class MainActivity : AppCompatActivity(), AIListener {
                     }
                 }.execute(aiRequest)
             } else {
-                aiService!!.startListening()
+                aiService.startListening()
             }
 
             editText.setText("")
@@ -127,11 +117,11 @@ class MainActivity : AppCompatActivity(), AIListener {
                 val img1 = BitmapFactory.decodeResource(resources, R.drawable.ic_mic_white_24dp)
 
 
-                if (s.toString().trim { it <= ' ' }.length != 0 && flagFab!!) {
+                if (s.toString().trim { it <= ' ' }.isNotEmpty() && flagFab!!) {
                     ImageViewAnimatedChange(this@MainActivity, fab_img, img)
                     flagFab = false
 
-                } else if (s.toString().trim { it <= ' ' }.length == 0) {
+                } else if (s.toString().trim { it <= ' ' }.isEmpty()) {
                     ImageViewAnimatedChange(this@MainActivity, fab_img, img1)
                     flagFab = true
 
