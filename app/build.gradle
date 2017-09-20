@@ -46,6 +46,12 @@ android {
         versionCode project.ext.versionCode
         versionName project.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
 
     dataBinding {
@@ -180,6 +186,8 @@ android {
         it.buildConfigField "String", "API_AI_CLIENT_ACCESS_TOKEN", API_AI_CLIENT_ACCESS_TOKEN
         it.buildConfigField "String", "API_AI_DEV_ACCESS_TOKEN", API_AI_DEV_ACCESS_TOKEN
     }
+
+    compileOptions.incremental = false
 }
 
 dependencies {
