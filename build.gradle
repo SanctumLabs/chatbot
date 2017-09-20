@@ -1,10 +1,16 @@
 buildscript {
+    ext.kotlin_version = '1.1.4-3'
     repositories {
         jcenter()
+        mavenCentral()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0-beta6'
         classpath 'com.google.gms:google-services:3.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
     }
 }
 
@@ -12,14 +18,50 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
-        maven {
-            url "https://maven.google.com"
-        }
-
+        google()
+        maven { url "https://maven.google.com" }
     }
-
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    /**
+     * Set this to true to create two separate APKs instead of one:
+     *   - An APK that only works on ARM devices
+     *   - An APK that only works on x86 devices
+     * The advantage is the size of the APK is reduced by about 4MB.
+     * Upload all the APKs to the Play Store and people will download
+     * the correct one based on the CPU architecture of their device.
+     */
+    enableSeparateBuildPerCPUArchitecture = true
+
+    // If true, also generate a universal APK
+    enableUniversalApk = true
+
+    // ABI codes
+    abiCodes = ["armeabi-v7a": 1, "x86": 2, "mips": 3, "x86_64": 4, "armeabi": 5, "arm64-v8a": 6]
+
+    // For per-density APKs, create a similar map like this:
+    densityCodes = ["ldpi": 1, 'mdpi': 2, 'hdpi': 3, 'xhdpi': 4, "xxhdpi": 5, "xxxhdpi": 6]
+
+    // -------------------- DEPENDENCIES --------------------
+
+    // support lib
+    supportLibVersion = "26.1.0"
+
+    // multidex
+    multiDexEnabledVersion = "1.0.2"
+
+    // Dependency Injection
+    javaxAnnotationVersion = "1.0"
+    daggerVersion = "2.11"
+    javaxAnnotationVersion = "1.0"
+    javaxInjectVersion = "1"
+
+    // -------------------- TEST DEPENDENCIES -----------------------
+    jUnitVersion = "4.12"
+    espressoVersion = "2.2.2"
 }

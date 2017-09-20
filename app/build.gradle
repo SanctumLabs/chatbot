@@ -1,26 +1,94 @@
 apply plugin: "com.android.application"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "signing"
+apply plugin: 'kotlin-kapt'
+
+import com.android.build.OutputFile
+
+def keystorePropertiesFile = rootProject.file("keystores/keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+ext {
+    compileSdkVersion = 26
+    buildToolsVersion = "26.0.1"
+    minSdkVersion = 19
+    targetSdkVersion = 26
+    versionCode = 1
+    versionName = "1.0"
+
+    // firebase db version
+    firebaseDatabaseVersion = "11.4.0"
+    firbaseUiDbVersion = "2.3.0"
+
+    // API AI VERSION
+    apiSdkVersion = "2.0.7@aar"
+    apiLibAiVersion = "1.4.8"
+
+    // GSON VERSION
+    gsonVersion = "2.8.1"
+
+    // reactive
+    rxjava2Version = '2.1.1'
+    rxandroidVersion = '2.0.1'
+    rxKotlinVersion = "2.1.0"
+}
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.chatterbox"
-        minSdkVersion 19
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.versionCode
+        versionName project.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-        }
-        debug{
 
+    dataBinding {
+        enabled = false
+    }
+
+    /**
+     * The aapt tool may inflate PNG files that have already been compressed.
+     * To prevent this, you can use the cruncherEnabled flag in Gradle to disable this
+     * process for PNG files:
+     * */
+    aaptOptions {
+        cruncherEnabled = false
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile rootProject.file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            resValue "string", "app_name", "ChatBot"
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            applicationIdSuffix ".debug"
+            testCoverageEnabled true
+            resValue "string", "app_name", "ChatBot-dev"
+        }
+    }
+
     packagingOptions {
         exclude "META-INF/DEPENDENCIES.txt"
         exclude "META-INF/LICENSE.txt"
@@ -33,31 +101,120 @@ android {
         exclude "META-INF/dependencies.txt"
         exclude "META-INF/LGPL2.1"
     }
+
+    // this enables the modularizing of application resources
+    sourceSets {
+        main {
+            java.srcDirs += "src/main/kotlin"
+            res.srcDirs = [
+                    "src/main/res/layouts/feature_main",
+                    "src/main/res/layouts/components",
+                    "src/main/res/layouts/common",
+                    "src/main/res/layouts",
+                    "src/main/res"
+            ]
+        }
+
+        androidTest {
+            java.srcDirs += "src/androidTest/kotlin"
+        }
+
+        test {
+            java.srcDirs += "src/test/kotlin"
+        }
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+
+    lintOptions {
+        quiet true         // set to true to turn off analysis progress reporting by lint
+        abortOnError false        // if true, stop the gradle build if errors are found
+        ignoreWarnings true        // if true, only report errors
+    }
+
+    // For each APK output variant, override versionCode with a combination of
+    // ext.abiCodes * 1000 + variant.versionCode. In this example, variant.versionCode
+    // is equal to defaultConfig.versionCode. If you configure product flavors that
+    // define their own versionCode, variant.versionCode uses that value instead.
+    // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+    applicationVariants.all { variant ->
+
+        // Assigns a different version code for each output APK
+        // other than the universal APK.
+        variant.outputs.all { output ->
+            // Stores the value of ext.abiCodes that is associated with the ABI for this variant.
+            // Determines the ABI for this variant and returns the mapped value.
+            def baseAbiVersionCode = rootProject.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
+//            def baseDensityCodes = rootProject.ext.densityCodes.get(output.getFilter(
+//                    OutputFile.DENSITY))
+
+            // Filter is null for universal APKs.
+            // this will be used when distributing universal APK to crashlytics
+            if (baseAbiVersionCode == null) {
+                tasks.findAll {
+                    it.name.startsWith("crashlyticsUploadDistribution${variant.name.capitalize()}")
+                }.each {
+                    it.doFirst {
+                        ext.betaDistributionApkFilePath = output.outputFile.absolutePath
+                    }
+                }
+            }
+            // Because abiCodes.get() returns null for ABIs that are not mapped by ext.abiCodes,
+            // the following code does not override the version code for universal APKs.
+            // However, because we want universal APKs to have the lowest version code,
+            // this outcome is desirable.
+            if (baseAbiVersionCode != null) {
+                // Assigns the new version code to versionCodeOverride, which changes the version code
+                // for only the output APK, not for the variant itself. Skipping this step simply
+                // causes Gradle to use the value of variant.versionCode for the APK.
+                output.versionCodeOverride = baseAbiVersionCode * 1000 + variant.versionCode
+            }
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
     // ********************* SUPPORT LIBRARY ******************************
-    implementation "com.android.support:appcompat-v7:26.1.0"
-    implementation "com.android.support:recyclerview-v7:26.1.0"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:recyclerview-v7:$supportLibVersion"
+    implementation "com.android.support:multidex:$multiDexEnabledVersion"
+
+    // ************************** KOTLIN VERSION **********************
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     // *********************** FIREBASE DEPENDENCIES *********************
-    implementation "com.google.firebase:firebase-database:11.4.0"
-    implementation "com.firebaseui:firebase-ui-database:2.3.0"
+    implementation "com.google.firebase:firebase-database:$firebaseDatabaseVersion"
+    implementation "com.firebaseui:firebase-ui-database:$firbaseUiDbVersion"
 
     // ************** API AI ******************
-    implementation "ai.api:sdk:2.0.7@aar"
-    implementation "ai.api:libai:1.4.8"
+    implementation "ai.api:sdk:$apiSdkVersion"
+    implementation "ai.api:libai:$apiLibAiVersion"
 
     // ****************** GSON ************************
-    implementation "com.google.code.gson:gson:2.8.1"
+    implementation "com.google.code.gson:gson:$gsonVersion"
 
     // **************** COMMONS **********************
     implementation "commons-io:commons-io:2.4"
 
+    //*****************  reactive ****************************
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2Version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+
+    // ****************** dependency injection ***************************
+    compileOnly "javax.annotation:jsr250-api:$javaxAnnotationVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "javax.inject:javax.inject:$javaxInjectVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
     // ******************* TEST DEPENDENCIES ***************************
-    testImplementation "junit:junit:4.12"
-    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2", {
+    testImplementation "junit:junit:$jUnitVersion"
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: "com.android.support", module: "support-annotations"
     })
 }
