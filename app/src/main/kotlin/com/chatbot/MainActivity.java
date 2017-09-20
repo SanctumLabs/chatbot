@@ -1,4 +1,4 @@
-package com.example.beast.chatbot;
+package com.chatbot;
 
 import android.*;
 import android.Manifest;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements AIListener{
     EditText editText;
     RelativeLayout addBtn;
     DatabaseReference ref;
-    FirebaseRecyclerAdapter<ChatMessage,chat_rec> adapter;
+    FirebaseRecyclerAdapter<ChatMessage,ChatViewHolder> adapter;
     Boolean flagFab = true;
 
     private AIService aiService;
@@ -161,23 +161,23 @@ public class MainActivity extends AppCompatActivity implements AIListener{
             }
         });
 
-        adapter = new FirebaseRecyclerAdapter<ChatMessage, chat_rec>(ChatMessage.class,R.layout.msglist,chat_rec.class,ref.child("chat")) {
+        adapter = new FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(ChatMessage.class,R.layout.msglist,ChatViewHolder.class,ref.child("chat")) {
             @Override
-            protected void populateViewHolder(chat_rec viewHolder, ChatMessage model, int position) {
+            protected void populateViewHolder(ChatViewHolder viewHolder, ChatMessage model, int position) {
 
                 if (model.getMsgUser().equals("user")) {
 
 
-                    viewHolder.rightText.setText(model.getMsgText());
+                    viewHolder.getRightText().setText(model.getMsgText());
 
-                    viewHolder.rightText.setVisibility(View.VISIBLE);
-                    viewHolder.leftText.setVisibility(View.GONE);
+                    viewHolder.getRightText().setVisibility(View.VISIBLE);
+                    viewHolder.getLeftText().setVisibility(View.GONE);
                 }
                 else {
-                    viewHolder.leftText.setText(model.getMsgText());
+                    viewHolder.getLeftText().setText(model.getMsgText());
 
-                    viewHolder.rightText.setVisibility(View.GONE);
-                    viewHolder.leftText.setVisibility(View.VISIBLE);
+                    viewHolder.getRightText().setVisibility(View.GONE);
+                    viewHolder.getLeftText().setVisibility(View.VISIBLE);
                 }
             }
         };

@@ -3,6 +3,7 @@
 /local.properties
 .idea/
 keystores/keystore.properties
+app/google-services.json
 .DS_Store
 /build
 /captures

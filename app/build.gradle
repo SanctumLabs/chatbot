@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "signing"
 apply plugin: 'kotlin-kapt'
+apply from: "../googleservices.gradle"
 
 import com.android.build.OutputFile
 
@@ -39,7 +40,7 @@ android {
     compileSdkVersion project.ext.compileSdkVersion
     buildToolsVersion project.ext.buildToolsVersion
     defaultConfig {
-        applicationId "com.chatterbox"
+        applicationId "com.chatbot"
         minSdkVersion project.ext.minSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.versionCode

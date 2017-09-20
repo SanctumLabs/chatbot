@@ -1,0 +1,27 @@
+// reference
+// https://gist.github.com/ZakTaccardi/708d5e2ad7d7d5bbd084
+// https://medium.com/google-cloud/automatic-per-variant-google-services-json-configurations-with-gradle-d3d3e40abc0e
+
+def srcDir = 'src'
+def googleServicesJson = 'google-services.json'
+
+task switchToDebug(type: Copy) {
+    def buildType = 'debug'
+    description = 'Switches to DEBUG google-services.json'
+    from "${srcDir}/${buildType}"
+    include "$googleServicesJson"
+    into "."
+}
+
+task switchToRelease(type: Copy) {
+    def buildType = 'main'
+    description = 'Switches to RELEASE google-services.json'
+    from "${srcDir}/${buildType}"
+    include "$googleServicesJson"
+    into "."
+}
+
+afterEvaluate{
+    processDebugGoogleServices.dependsOn switchToDebug
+    processReleaseGoogleServices.dependsOn switchToRelease
+}
