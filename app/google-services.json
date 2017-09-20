@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:927160142468:android:1c43e116a035f65c",
         "android_client_info": {
-          "package_name": "com.chatbot"
+          "package_name": "com.chatbot.debug"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "927160142468-m3bfmcddelka82bq48sbfboe5n3ncnhd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.chatbot",
+            "package_name": "com.chatbot.debug",
             "certificate_hash": "7e1e533cb3cc724541c322ae4953d9dd285aa294"
           }
         },

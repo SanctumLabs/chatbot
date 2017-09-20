@@ -175,6 +175,11 @@ android {
             }
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField "String", "API_AI_CLIENT_ACCESS_TOKEN", API_AI_CLIENT_ACCESS_TOKEN
+        it.buildConfigField "String", "API_AI_DEV_ACCESS_TOKEN", API_AI_DEV_ACCESS_TOKEN
+    }
 }
 
 dependencies {

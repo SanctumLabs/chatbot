@@ -2,7 +2,7 @@
 
 Small simple Chatbot made with [Firebase](https://firebase.google.com/), [API.AI](https://api.ai/) and [Kotlin](https://kotlinlang.org/).
 
-## Prerequisites
+### Prerequisites
 
 1. [Firebase SDK](https://firebase.google.com/)
 
@@ -36,5 +36,32 @@ Also, ensure that the google-services.json file placed within the debug folder h
 
 The `googleservices.gradle` will take care of copying the right json file to the root of the app folder.
 
-2. [API.AI SDK]()
+2. [API.AI SDK](https://console.api.ai/api-client/#/editAgent/)
 
+You will need to configure API AI to get a client access token and a dev access token.
+
+Once you have those configured, create a `gradle.properties file` in the root of the project.
+
+```properties
+API_AI_CLIENT_ACCESS_TOKEN=<CLIENT_ACCESS_TOKEN>
+API_AI_DEV_ACCESS_TOKEN=<DEV_ACCESS_TOKEN>
+```
+> properties to setup in the gradle.properties file
+
+3. ***keystore.properties file***
+
+This is necessary, especially for signing of the application for release.
+
+Create a `keystore.properties` file in `keystores`directory and place these in the file
+
+```properties
+keyAlias=<KEY_ALIAS>
+keyPassword=<KEY_PASSWORD>
+storeFile=<STORE_FILE_NAME>
+storePassword=<STORE_PASSWORD>
+```
+> Properties file for keystore, place in your values.
+
+Refer to [this](https://developer.android.com/studio/publish/app-signing.html) article on how to create a release build with Android Studio.
+
+That is all you will need to setup and start and even deploy this minimal project.

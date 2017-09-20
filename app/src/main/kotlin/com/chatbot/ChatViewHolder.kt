@@ -7,7 +7,6 @@ import android.widget.TextView
 
 class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    var leftText: TextView = itemView.findViewById(R.id.leftText) as TextView
-    var rightText: TextView = itemView.findViewById(R.id.rightText) as TextView
-
+    var leftText = itemView.findViewById<TextView>(R.id.leftText)
+    var rightText = itemView.findViewById<TextView>(R.id.rightText)
 }
