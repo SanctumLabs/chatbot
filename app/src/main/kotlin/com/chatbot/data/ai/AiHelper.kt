@@ -16,6 +16,11 @@ interface AiHelper{
     fun startAiService()
 
     /**
+     * Stops the currently running AI Service
+     * */
+    fun stopAiService()
+
+    /**
      * post message query to AI
      * @param message Message to post to AI
      * */

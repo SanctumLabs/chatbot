@@ -2,7 +2,6 @@ package com.chatbot.ui.main
 
 import ai.api.AIListener
 import ai.api.android.AIService
-import ai.api.model.AIRequest
 import android.Manifest
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -31,8 +30,6 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
     @Inject
     lateinit var aiService: AIService
 
-    lateinit var aiRequest: AIRequest
-
     @Inject
     lateinit var mainPresenter: MainPresenter<MainView>
 
@@ -52,12 +49,18 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
         mainPresenter.onStart()
     }
 
-    override fun setupAiServiceAndRequest() {
-        aiService.setListener(this)
-        aiRequest = AIRequest()
+    override fun onStop() {
+        mainPresenter.onDetach()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        mainPresenter.onDetach()
+        super.onDestroy()
     }
 
     override fun setupListeners() {
+        aiService.setListener(this)
         addBtn.setOnClickListener(this)
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

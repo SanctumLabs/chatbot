@@ -18,11 +18,6 @@ interface MainView : BaseView{
     fun requestAudioPermission()
 
     /**
-     * Sets up the AI service and request
-     * */
-    fun setupAiServiceAndRequest()
-
-    /**
      * sets up listeners
      * */
     fun setupListeners()

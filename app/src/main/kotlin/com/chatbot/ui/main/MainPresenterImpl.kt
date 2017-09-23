@@ -27,7 +27,7 @@ constructor(mDataManager: DataManager,
     }
 
     override fun onStart() {
-        baseView.setupAiServiceAndRequest()
+        dataManager.startAiService()
     }
 
     override fun onResume() {
@@ -76,10 +76,12 @@ constructor(mDataManager: DataManager,
     }
 
     override fun onAudioButtonClicked() {
+
     }
 
     override fun onDetach() {
         super.onDetach()
+        dataManager.stopAiService()
         compositeDisposable.dispose()
     }
 }

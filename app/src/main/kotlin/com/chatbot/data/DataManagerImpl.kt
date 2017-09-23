@@ -36,6 +36,10 @@ constructor(val dbHelper: DbHelper,
     }
 
     override fun startAiService() {
+        aiHelper.startAiService()
+    }
 
+    override fun stopAiService() {
+        aiHelper.stopAiService()
     }
 }
