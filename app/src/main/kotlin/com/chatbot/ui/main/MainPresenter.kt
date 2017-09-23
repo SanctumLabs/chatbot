@@ -1,14 +1,13 @@
 package com.chatbot.ui.main
 
 import android.os.Bundle
+import com.chatbot.ui.base.BasePresenter
 
 /**
  * @author lusinabrian on 20/09/17.
  * @Notes Presenter layer
  */
-interface MainPresenter<V : MainView> {
-
-    fun onAttach(mBaseView: V)
+interface MainPresenter<V : MainView> : BasePresenter<V> {
 
     /**
      * on Start
@@ -20,14 +19,12 @@ interface MainPresenter<V : MainView> {
      * */
     fun onResume()
 
-    fun onDetach()
-
-    fun onViewCreated(savedInstanceState : Bundle?)
+    fun onViewCreated(savedInstanceState: Bundle?)
 
     /**
      * Callback for when the send message button is clicked
      * */
-    fun onSendMessageClicked(message : String)
+    fun onSendMessageClicked(message: String)
 
     /**
      * callback for when the audion button is clicked

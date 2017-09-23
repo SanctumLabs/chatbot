@@ -2,6 +2,7 @@ package com.chatbot.di.modules
 
 import com.chatbot.data.db.DbHelper
 import com.chatbot.data.db.DbHelperImpl
+import com.chatbot.di.qualifier.DatabaseRefQualifier
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
@@ -20,6 +21,7 @@ class DatabaseModule {
     }
 
     @Provides
+    @DatabaseRefQualifier
     fun provideFirebaseDatabase(): DatabaseReference {
         val dbRef = FirebaseDatabase.getInstance().reference
         dbRef.keepSynced(true)

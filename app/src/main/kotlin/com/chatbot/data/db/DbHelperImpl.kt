@@ -1,5 +1,7 @@
 package com.chatbot.data.db
 
+import com.chatbot.di.qualifier.DatabaseRefQualifier
+import com.google.firebase.database.DatabaseReference
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,6 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class DbHelperImpl
 @Inject
-constructor() : DbHelper {
+constructor(@DatabaseRefQualifier val databaseReference: DatabaseReference) : DbHelper {
+
 
 }

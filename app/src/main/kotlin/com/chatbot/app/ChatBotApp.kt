@@ -7,6 +7,7 @@ import android.support.multidex.MultiDexApplication
 import com.chatbot.di.components.AppComponent
 import com.chatbot.di.components.DaggerAppComponent
 import com.chatbot.di.modules.AppModule
+import com.chatbot.di.modules.DatabaseModule
 import com.google.firebase.database.FirebaseDatabase
 
 class ChatBotApp : Application() {
@@ -18,6 +19,7 @@ class ChatBotApp : Application() {
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
+                .databaseModule(DatabaseModule())
                 .build()
 
         appComponent.injectApp(this)

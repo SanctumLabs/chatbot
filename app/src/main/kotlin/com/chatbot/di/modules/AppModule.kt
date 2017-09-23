@@ -1,17 +1,13 @@
 package com.chatbot.di.modules
 
-import ai.api.AIDataService
-import ai.api.android.AIService
-import ai.api.model.AIRequest
 import android.app.Application
 import android.content.Context
-import com.chatbot.BuildConfig
+import com.chatbot.data.DataManager
+import com.chatbot.data.DataManagerImpl
 import com.chatbot.di.qualifier.AppCtxQualifier
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 /**
@@ -30,6 +26,12 @@ class AppModule(private val mApplication: Application) {
     @Provides
     fun provideApplication(): Application {
         return mApplication
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataManager(dataManager: DataManagerImpl): DataManager {
+        return dataManager
     }
 
 //    @Provides

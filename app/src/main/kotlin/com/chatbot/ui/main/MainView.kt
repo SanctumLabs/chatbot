@@ -1,13 +1,15 @@
 package com.chatbot.ui.main
 
+import com.chatbot.ui.base.BaseView
+
 /**
  * @author lusinabrian on 20/09/17.
  * @Notes view for main activity
  */
-interface MainView {
+interface MainView : BaseView{
 
     /**
-     * callback for when the adapter and recycler are setup
+     * callback for when the mainAdapter and recycler are setup
      * */
     fun setupAdapterAndRecycler()
 

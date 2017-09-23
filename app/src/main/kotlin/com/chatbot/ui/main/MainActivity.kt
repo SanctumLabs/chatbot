@@ -13,7 +13,6 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -22,22 +21,18 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import com.chatbot.ChatMessage
-import com.chatbot.ChatViewHolder
 import com.chatbot.R
-import com.chatbot.app.ChatBotApp
-import com.chatbot.di.components.ActivityComponent
-import com.chatbot.di.components.DaggerActivityComponent
-import com.chatbot.di.modules.ActivityModule
-import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.chatbot.ui.ChatMessage
+import com.chatbot.ui.base.BaseActivity
 import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), AIListener, MainView, View.OnClickListener {
+class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener {
 
-    lateinit var adapter: FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>
+    @Inject
+    lateinit var mainAdapter: MainAdapter
     var flagFab: Boolean = true
 
     @Inject
@@ -51,19 +46,12 @@ class MainActivity : AppCompatActivity(), AIListener, MainView, View.OnClickList
     @Inject
     lateinit var mainPresenter: MainPresenter<MainView>
 
-    @Inject
+    // @Inject
     lateinit var databaseReference: DatabaseReference
-
-    lateinit var activityComponent: ActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        activityComponent = DaggerActivityComponent.builder()
-                .activityModule(ActivityModule(this))
-                .appComponent((application as ChatBotApp).appComponent)
-                .build()
 
         activityComponent.injectActivity(this)
 
@@ -125,29 +113,29 @@ class MainActivity : AppCompatActivity(), AIListener, MainView, View.OnClickList
         linearLayoutManager.stackFromEnd = true
         recyclerView.layoutManager = linearLayoutManager
 
-        adapter = object : FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(ChatMessage::class.java, R.layout.item_chat, ChatViewHolder::class.java, databaseReference.child("chat")) {
-            override fun populateViewHolder(viewHolder: ChatViewHolder, model: ChatMessage, position: Int) {
+//        mainAdapter = object : FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(ChatMessage::class.java, R.layout.item_chat, ChatViewHolder::class.java, databaseReference.child("chat")) {
+//            override fun populateViewHolder(viewHolder: ChatViewHolder, model: ChatMessage, position: Int) {
+//
+//                if (model.msgUser == "user") {
+//
+//                    viewHolder.rightText.text = model.msgText
+//
+//                    viewHolder.rightText.visibility = View.VISIBLE
+//                    viewHolder.leftText.visibility = View.GONE
+//                } else {
+//                    viewHolder.leftText.text = model.msgText
+//
+//                    viewHolder.rightText.visibility = View.GONE
+//                    viewHolder.leftText.visibility = View.VISIBLE
+//                }
+//            }
+//        }
 
-                if (model.msgUser == "user") {
-
-                    viewHolder.rightText.text = model.msgText
-
-                    viewHolder.rightText.visibility = View.VISIBLE
-                    viewHolder.leftText.visibility = View.GONE
-                } else {
-                    viewHolder.leftText.text = model.msgText
-
-                    viewHolder.rightText.visibility = View.GONE
-                    viewHolder.leftText.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        mainAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
 
-                val msgCount = adapter.itemCount
+                val msgCount = mainAdapter.itemCount
                 val lastVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition()
 
                 if (lastVisiblePosition == -1 || positionStart >= msgCount - 1 && lastVisiblePosition == positionStart - 1) {
@@ -158,7 +146,7 @@ class MainActivity : AppCompatActivity(), AIListener, MainView, View.OnClickList
             }
         })
 
-        recyclerView.adapter = adapter
+        recyclerView.adapter = mainAdapter
     }
 
     override fun onClick(view: View?) {
@@ -218,19 +206,15 @@ class MainActivity : AppCompatActivity(), AIListener, MainView, View.OnClickList
     }
 
     override fun onResult(response: ai.api.model.AIResponse) {
-
-
         val result = response.result
 
         val message = result.resolvedQuery
         val chatMessage0 = ChatMessage(message, "user")
         databaseReference.child("chat").push().setValue(chatMessage0)
 
-
         val reply = result.fulfillment.speech
         val chatMessage = ChatMessage(reply, "bot")
         databaseReference.child("chat").push().setValue(chatMessage)
-
 
     }
 

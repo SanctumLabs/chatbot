@@ -1,9 +1,10 @@
-package com.chatbot
+package com.chatbot.ui
 
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.chatbot.R
 
 class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

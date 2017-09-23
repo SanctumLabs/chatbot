@@ -1,6 +1,10 @@
 package com.chatbot.ui.main
 
 import android.os.Bundle
+import com.chatbot.data.DataManager
+import com.chatbot.data.io.SchedulerProvider
+import com.chatbot.ui.base.BasePresenterImpl
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -9,16 +13,18 @@ import javax.inject.Inject
  */
 class MainPresenterImpl<V : MainView>
 @Inject
-constructor() : MainPresenter<V> {
-    lateinit var baseView: V
-        private set
+constructor(mDataManager: DataManager,
+            mSchedulerProvider: SchedulerProvider,
+            mCompositeDisposable: CompositeDisposable)
+    : MainPresenter<V>, BasePresenterImpl<V>(mDataManager, mSchedulerProvider,
+        mCompositeDisposable) {
 
     override fun onAttach(mBaseView: V) {
-        this.baseView = mBaseView
+        super.onAttach(mBaseView)
+        baseView.requestAudioPermission()
     }
 
     override fun onStart() {
-        baseView.requestAudioPermission()
         baseView.setupAiServiceAndRequest()
     }
 
@@ -37,5 +43,7 @@ constructor() : MainPresenter<V> {
     }
 
     override fun onDetach() {
+        super.onDetach()
+        compositeDisposable.dispose()
     }
 }
