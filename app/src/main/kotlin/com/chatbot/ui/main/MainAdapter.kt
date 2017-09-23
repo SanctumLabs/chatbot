@@ -2,6 +2,7 @@ package com.chatbot.ui.main
 
 import android.view.View
 import com.chatbot.R
+import com.chatbot.di.qualifier.DatabaseRefQualifier
 import com.chatbot.ui.ChatMessage
 import com.chatbot.ui.ChatViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -14,9 +15,8 @@ import javax.inject.Inject
  */
 class MainAdapter
 @Inject
-constructor(databaseReference: DatabaseReference)
-    : FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(ChatMessage::class.java,
-        R.layout.item_chat, ChatViewHolder::class.java, databaseReference.child("chat")) {
+constructor(@DatabaseRefQualifier databaseReference: DatabaseReference) : FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(ChatMessage::class.java, R.layout.item_chat, ChatViewHolder::class.java,
+        databaseReference.child("chat")) {
 
     override fun populateViewHolder(viewHolder: ChatViewHolder, model: ChatMessage,
                                     position: Int) {

@@ -1,14 +1,14 @@
 package com.chatbot.data.ai
 
 import ai.api.AIDataService
-import ai.api.AIServiceException
 import ai.api.android.AIService
 import ai.api.model.AIRequest
 import ai.api.model.AIResponse
-import android.os.AsyncTask
-import com.chatbot.ui.ChatMessage
 import io.reactivex.Observable
+import io.reactivex.Observer
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -18,8 +18,9 @@ import javax.inject.Singleton
 @Singleton
 class AIHelperImpl
 @Inject
-constructor(val aiService: AIService, val aiRequest: AIRequest,
-            val aiDataService: AIDataService) : AiHelper {
+constructor(@Named("AiService") val aiService: AIService,
+            @Named("AiRequest") val aiRequest: AIRequest,
+            @Named("AiDataService") val aiDataService: AIDataService) : AiHelper {
 
     override fun startAiService() {
         aiService.startListening()
@@ -33,7 +34,18 @@ constructor(val aiService: AIService, val aiRequest: AIRequest,
         aiRequest.setQuery(message)
     }
 
+    // todo: make ai request in background and return result
     override fun makeAIRequest(): Observable<AIResponse> {
-        return Observable.just(aiDataService.request(aiRequest))
+        var aiResponse: Observable<AIResponse> = object : Observable<AIResponse>() {
+            override fun subscribeActual(observer: Observer<in AIResponse>?) {
+
+            }
+        }
+        doAsync {
+            aiResponse = Observable.just(aiDataService.request(aiRequest))
+            println("doAsync => $aiResponse")
+        }
+        println("doAsync => $aiResponse")
+        return aiResponse
     }
 }

@@ -31,11 +31,13 @@ class AIModule {
     }
 
     @Provides
+    @Named("AiService")
     fun provideAiService(@Named("AiConfig") aiConfig: ai.api.android.AIConfiguration, @AppCtxQualifier context: Context): AIService {
         return AIService.getService(context, aiConfig)
     }
 
     @Provides
+    @Named("AiDataService")
     fun provideAiDataService(@Named("AiConfig") aiConfig: ai.api.android.AIConfiguration): AIDataService {
         return AIDataService(aiConfig)
     }

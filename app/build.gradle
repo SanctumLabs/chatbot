@@ -30,6 +30,9 @@ ext {
     // GSON VERSION
     gsonVersion = "2.8.1"
 
+    // anko version
+    ankoVersion = "0.10.1"
+
     // reactive
     rxjava2Version = '2.1.1'
     rxandroidVersion = '2.0.1'
@@ -212,13 +215,13 @@ dependencies {
     // ****************** GSON ************************
     implementation "com.google.code.gson:gson:$gsonVersion"
 
-    // **************** COMMONS **********************
-    implementation "commons-io:commons-io:2.4"
-
     //*****************  reactive ****************************
     implementation "io.reactivex.rxjava2:rxjava:$rxjava2Version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+
+    //********************* Anko Commons ****************************
+    implementation "org.jetbrains.anko:anko-commons:$ankoVersion"
 
     // ****************** dependency injection ***************************
     compileOnly "javax.annotation:jsr250-api:$javaxAnnotationVersion"

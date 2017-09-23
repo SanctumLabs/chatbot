@@ -49,6 +49,11 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
         mainPresenter.onStart()
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainPresenter.onResume()
+    }
+
     override fun onStop() {
         mainPresenter.onDetach()
         super.onStop()
@@ -66,15 +71,16 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                val fabImg = findViewById<View>(R.id.fab_img) as ImageView
-                val img = BitmapFactory.decodeResource(resources, R.drawable.ic_send_white_24dp)
-                val img1 = BitmapFactory.decodeResource(resources, R.drawable.ic_mic_white_24dp)
+                val sendImg = BitmapFactory.decodeResource(resources,
+                        R.drawable.ic_send_white_24dp)
+                val micImage = BitmapFactory.decodeResource(resources,
+                        R.drawable.ic_mic_white_24dp)
 
                 if (s.toString().trim { it <= ' ' }.isNotEmpty() && flagFab) {
-                    imageViewAnimatedChange(fabImg, img)
+                    imageViewAnimatedChange(fabImgView, sendImg)
                     flagFab = false
                 } else if (s.toString().trim { it <= ' ' }.isEmpty()) {
-                    imageViewAnimatedChange(fabImg, img1)
+                    imageViewAnimatedChange(fabImgView, micImage)
                     flagFab = true
                 }
             }
@@ -115,12 +121,10 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
         when (view?.id) {
             R.id.addBtn -> {
                 val message = editText.text.toString().trim { it <= ' ' }
-                if (message != "") {
+                if (!message.isEmpty()) {
                     mainPresenter.onSendMessageClicked(message)
-                } else {
-                    aiService.startListening()
+                    editText.setText("")
                 }
-                editText.setText("")
             }
         }
     }

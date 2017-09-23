@@ -27,7 +27,7 @@ constructor(mDataManager: DataManager,
     }
 
     override fun onStart() {
-        dataManager.startAiService()
+        //dataManager.startAiService()
     }
 
     override fun onResume() {
