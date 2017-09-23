@@ -4,7 +4,6 @@ import ai.api.AIListener
 import ai.api.android.AIService
 import ai.api.model.AIRequest
 import android.Manifest
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -60,34 +59,24 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
 
     override fun setupListeners() {
         addBtn.setOnClickListener(this)
-
         editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
-            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                val fab_img = findViewById<View>(R.id.fab_img) as ImageView
+                val fabImg = findViewById<View>(R.id.fab_img) as ImageView
                 val img = BitmapFactory.decodeResource(resources, R.drawable.ic_send_white_24dp)
                 val img1 = BitmapFactory.decodeResource(resources, R.drawable.ic_mic_white_24dp)
 
-
                 if (s.toString().trim { it <= ' ' }.isNotEmpty() && flagFab) {
-                    ImageViewAnimatedChange(this@MainActivity, fab_img, img)
+                    imageViewAnimatedChange(fabImg, img)
                     flagFab = false
-
                 } else if (s.toString().trim { it <= ' ' }.isEmpty()) {
-                    ImageViewAnimatedChange(this@MainActivity, fab_img, img1)
+                    imageViewAnimatedChange(fabImg, img1)
                     flagFab = true
-
                 }
-
-
             }
 
-            override fun afterTextChanged(s: Editable) {
-
-            }
+            override fun afterTextChanged(s: Editable) {}
         })
     }
 
@@ -103,24 +92,6 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
         linearLayoutManager.stackFromEnd = true
         recyclerView.layoutManager = linearLayoutManager
 
-//        mainAdapter = object : FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(ChatMessage::class.java, R.layout.item_chat, ChatViewHolder::class.java, databaseReference.child("chat")) {
-//            override fun populateViewHolder(viewHolder: ChatViewHolder, model: ChatMessage, position: Int) {
-//
-//                if (model.msgUser == "user") {
-//
-//                    viewHolder.rightText.text = model.msgText
-//
-//                    viewHolder.rightText.visibility = View.VISIBLE
-//                    viewHolder.leftText.visibility = View.GONE
-//                } else {
-//                    viewHolder.leftText.text = model.msgText
-//
-//                    viewHolder.rightText.visibility = View.GONE
-//                    viewHolder.leftText.visibility = View.VISIBLE
-//                }
-//            }
-//        }
-
         mainAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
@@ -130,9 +101,7 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
 
                 if (lastVisiblePosition == -1 || positionStart >= msgCount - 1 && lastVisiblePosition == positionStart - 1) {
                     recyclerView.scrollToPosition(positionStart)
-
                 }
-
             }
         })
 
@@ -149,50 +118,30 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
                     aiService.startListening()
                 }
                 editText.setText("")
-
-                // val chatMessage = ChatMessage(message, "user")
-                // databaseReference.child("chat").push().setValue(chatMessage)
-                // aiRequest.setQuery(message)
-//                object : AsyncTask<AIRequest, Void, AIResponse>() {
-//                    override fun doInBackground(vararg aiRequests: AIRequest): AIResponse? {
-//                        val request = aiRequests[0]
-//                        try {
-//                            return aiDataService.request(aiRequest)
-//                        } catch (e: AIServiceException) {
-//                        }
-//                        return null
-//                    }
-//
-//                    override fun onPostExecute(response: AIResponse?) {
-//                        if (response != null) {
-//                            val result = response.result
-//                            val reply = result.fulfillment.speech
-//                            val chatMessage = ChatMessage(reply, "bot")
-//                            databaseReference.child("chat").push().setValue(chatMessage)
-//                        }
-//                    }
-//                }.execute(aiRequest)
             }
         }
     }
 
-    fun ImageViewAnimatedChange(c: Context, v: ImageView, new_image: Bitmap) {
-        val anim_out = AnimationUtils.loadAnimation(c, R.anim.zoom_out)
-        val anim_in = AnimationUtils.loadAnimation(c, R.anim.zoom_in)
-        anim_out.setAnimationListener(object : Animation.AnimationListener {
+    /**
+     * Animation change handler for the send button
+     * */
+    private fun imageViewAnimatedChange(v: ImageView, new_image: Bitmap) {
+        val animOut = AnimationUtils.loadAnimation(this, R.anim.zoom_out)
+        val animIn = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
+        animOut.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {}
             override fun onAnimationRepeat(animation: Animation) {}
             override fun onAnimationEnd(animation: Animation) {
                 v.setImageBitmap(new_image)
-                anim_in.setAnimationListener(object : Animation.AnimationListener {
+                animIn.setAnimationListener(object : Animation.AnimationListener {
                     override fun onAnimationStart(animation: Animation) {}
                     override fun onAnimationRepeat(animation: Animation) {}
                     override fun onAnimationEnd(animation: Animation) {}
                 })
-                v.startAnimation(anim_in)
+                v.startAnimation(animIn)
             }
         })
-        v.startAnimation(anim_out)
+        v.startAnimation(animOut)
     }
 
     /**

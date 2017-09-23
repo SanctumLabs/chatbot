@@ -30,24 +30,23 @@ constructor(var aiService: AIService, val aiRequest: AIRequest,
     }
 
     override fun makeAIRequest(): Observable<AIResponse> {
-        aiDataService.request(aiRequest)
-
-        object : AsyncTask<AIRequest, Void, AIResponse>() {
-            override fun doInBackground(vararg aiRequests: AIRequest): AIResponse? {
-                try {
-                    return aiDataService.request(aiRequest)
-                } catch (e: AIServiceException) {
-                }
-                return null
-            }
-
-            override fun onPostExecute(response: AIResponse?) {
-                if (response != null) {
-                    val result = response.result
-                    val reply = result.fulfillment.speech
-                    val chatMessage = ChatMessage(reply, "bot")
-                }
-            }
-        }
+        return Observable.just(aiDataService.request(aiRequest))
+//        object : AsyncTask<AIRequest, Void, AIResponse>() {
+//            override fun doInBackground(vararg aiRequests: AIRequest): AIResponse? {
+//                try {
+//                    return aiDataService.request(aiRequest)
+//                } catch (e: AIServiceException) {
+//                }
+//                return null
+//            }
+//
+//            override fun onPostExecute(response: AIResponse?) {
+//                if (response != null) {
+//                    val result = response.result
+//                    val reply = result.fulfillment.speech
+//                    val chatMessage = ChatMessage(reply, "bot")
+//                }
+//            }
+//        }
     }
 }
