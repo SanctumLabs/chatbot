@@ -3,7 +3,9 @@ package com.chatbot.di.components
 import android.app.Application
 import android.content.Context
 import com.chatbot.app.ChatBotApp
+import com.chatbot.data.DataManager
 import com.chatbot.di.modules.AppModule
+import com.chatbot.di.modules.DatabaseModule
 import com.chatbot.di.qualifier.AppCtxQualifier
 import dagger.Component
 import javax.inject.Singleton
@@ -13,7 +15,7 @@ import javax.inject.Singleton
  * @Notes app component
  */
 @Singleton
-@Component(modules = arrayOf(AppModule::class))
+@Component(modules = arrayOf(AppModule::class, DatabaseModule::class))
 interface AppComponent {
     fun injectApp(chatBotApp: ChatBotApp)
 
@@ -21,4 +23,6 @@ interface AppComponent {
     fun context(): Context
 
     fun application(): Application
+
+    fun getDataManager() : DataManager
 }

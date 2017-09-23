@@ -61,13 +61,6 @@ class ActivityModule(val mActivity: AppCompatActivity) {
                 ai.api.android.AIConfiguration.RecognitionEngine.System)
     }
 
-    @Provides
-    fun provideFirebaseDatabase(): DatabaseReference {
-        val dbRef = FirebaseDatabase.getInstance().reference
-        dbRef.keepSynced(true)
-        return dbRef
-    }
-
 //    @Provides
 //    @Named("AiRequest")
 //    fun provideAiRequest(): AIRequest {
