@@ -1,18 +1,13 @@
 package com.chatbot.ui.main
 
-import ai.api.AIDataService
 import ai.api.AIListener
-import ai.api.AIServiceException
 import ai.api.android.AIService
 import ai.api.model.AIRequest
-import ai.api.model.AIResponse
 import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -22,9 +17,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.chatbot.R
-import com.chatbot.ui.ChatMessage
 import com.chatbot.ui.base.BaseActivity
-import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -34,20 +27,15 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
     @Inject
     lateinit var mainAdapter: MainAdapter
     var flagFab: Boolean = true
+    private val audioRequestPermissionCode = 1
 
     @Inject
     lateinit var aiService: AIService
-
-    @Inject
-    lateinit var aiDataService: AIDataService
 
     lateinit var aiRequest: AIRequest
 
     @Inject
     lateinit var mainPresenter: MainPresenter<MainView>
-
-    // @Inject
-    lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +92,9 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
     }
 
     override fun requestAudioPermission() {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
+        if (!hasPermission(Manifest.permission.RECORD_AUDIO)) {
+            requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), audioRequestPermissionCode)
+        }
     }
 
     override fun setupAdapterAndRecycler() {
@@ -160,28 +150,28 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
                 }
                 editText.setText("")
 
-                val chatMessage = ChatMessage(message, "user")
-                databaseReference.child("chat").push().setValue(chatMessage)
-                aiRequest.setQuery(message)
-                object : AsyncTask<AIRequest, Void, AIResponse>() {
-                    override fun doInBackground(vararg aiRequests: AIRequest): AIResponse? {
-                        val request = aiRequests[0]
-                        try {
-                            return aiDataService.request(aiRequest)
-                        } catch (e: AIServiceException) {
-                        }
-                        return null
-                    }
-
-                    override fun onPostExecute(response: AIResponse?) {
-                        if (response != null) {
-                            val result = response.result
-                            val reply = result.fulfillment.speech
-                            val chatMessage = ChatMessage(reply, "bot")
-                            databaseReference.child("chat").push().setValue(chatMessage)
-                        }
-                    }
-                }.execute(aiRequest)
+                // val chatMessage = ChatMessage(message, "user")
+                // databaseReference.child("chat").push().setValue(chatMessage)
+                // aiRequest.setQuery(message)
+//                object : AsyncTask<AIRequest, Void, AIResponse>() {
+//                    override fun doInBackground(vararg aiRequests: AIRequest): AIResponse? {
+//                        val request = aiRequests[0]
+//                        try {
+//                            return aiDataService.request(aiRequest)
+//                        } catch (e: AIServiceException) {
+//                        }
+//                        return null
+//                    }
+//
+//                    override fun onPostExecute(response: AIResponse?) {
+//                        if (response != null) {
+//                            val result = response.result
+//                            val reply = result.fulfillment.speech
+//                            val chatMessage = ChatMessage(reply, "bot")
+//                            databaseReference.child("chat").push().setValue(chatMessage)
+//                        }
+//                    }
+//                }.execute(aiRequest)
             }
         }
     }
@@ -205,21 +195,21 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
         v.startAnimation(anim_out)
     }
 
+    /**
+     * What should we do with the permissions we now have?
+     * */
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == audioRequestPermissionCode) {
+
+        }
+    }
+
     override fun onResult(response: ai.api.model.AIResponse) {
-        val result = response.result
-
-        val message = result.resolvedQuery
-        val chatMessage0 = ChatMessage(message, "user")
-        databaseReference.child("chat").push().setValue(chatMessage0)
-
-        val reply = result.fulfillment.speech
-        val chatMessage = ChatMessage(reply, "bot")
-        databaseReference.child("chat").push().setValue(chatMessage)
-
+        mainPresenter.onAiResult(response)
     }
 
     override fun onError(error: ai.api.model.AIError) {
-
+        mainPresenter.onAiError(error)
     }
 
     override fun onAudioLevel(level: Float) {

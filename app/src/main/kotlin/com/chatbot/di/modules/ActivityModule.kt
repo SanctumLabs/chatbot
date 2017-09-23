@@ -75,22 +75,10 @@ class ActivityModule(val mActivity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideAiDataService(@Named("AiConfig") aiConfig: ai.api.android.AIConfiguration): AIDataService {
-        return AIDataService(aiConfig)
-    }
-
-    @Provides
     @Named("AiConfig")
     fun provideAiConfiguration(): ai.api.android.AIConfiguration {
         return ai.api.android.AIConfiguration(BuildConfig.API_AI_CLIENT_ACCESS_TOKEN,
                 ai.api.AIConfiguration.SupportedLanguages.English,
                 ai.api.android.AIConfiguration.RecognitionEngine.System)
     }
-
-//    @Provides
-//    @Named("AiRequest")
-//    fun provideAiRequest(): AIRequest {
-//        return AIRequest()
-//    }
-
 }
