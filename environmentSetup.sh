@@ -5,17 +5,14 @@
 # 2. https://gist.github.com/KioKrofovitch/716e6a681acb33859d16
 # 3. https://stackoverflow.com/questions/35440907/can-circle-ci-reference-gradle-properties-credentials
 
-GRADLE_PROPERTIES=$HOME"/gradle.properties"
-KEYSTORE_PROPERTIES=$HOME"/repo/keystores/keystore.properties"
-PUBLISH_KEY_FILE=$HOME"/repo/keystores/chatbot_publish_key.json"
-STORE_FILE_LOCATION=$HOME"/repo/chatbot.jks"
-GOOGLE_SERVICES_DEBUG_LOCATION=$HOME"/repo/app/debug/google-services.json"
-GOOGLE_SERVICES_RELEASE_LOCATION=$HOME"/repo/app/main/google-services.json"
+export GRADLE_PROPERTIES=$HOME"/gradle.properties"
+export KEYSTORE_PROPERTIES=$HOME"/repo/keystores/keystore.properties"
+export PUBLISH_KEY_FILE=$HOME"/repo/keystores/chatbot_publish_key.json"
+export PUBLISH_KEY_FILE_P12=$HOME"/repo/keystores/chatbot_publish_key.p12"
+export STORE_FILE_LOCATION=$HOME"/repo/chatbot.jks"
+export GOOGLE_SERVICES_DEBUG_LOCATION=$HOME"/repo/app/debug/google-services.json"
+export GOOGLE_SERVICES_RELEASE_LOCATION=$HOME"/repo/app/main/google-services.json"
 
-export GRADLE_PROPERTIES
-export KEYSTORE_PROPERTIES
-export PUBLISH_KEY_FILE
-export STORE_FILE_LOCATION
 
 function copyEnvVarsToProperties {
 
@@ -51,6 +48,13 @@ function copyEnvVarsToProperties {
         touch ${PUBLISH_KEY_FILE}
 
         echo "$CHATBOT_PUBLISH_KEY" >> ${PUBLISH_KEY_FILE}
+    fi
+
+    if [ ! -f "$PUBLISH_KEY_FILE_P12" ] ; then
+        echo "Downloading p12 file"
+        touch ${PUBLISH_KEY_FILE_P12}
+
+        curl -L -o ${PUBLISH_KEY_FILE_P12} ${CHATBOT_PUBLISH_P12_KEY_URI}
     fi
 }
 
