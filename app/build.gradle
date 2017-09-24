@@ -4,12 +4,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "signing"
 apply plugin: 'kotlin-kapt'
 apply from: "../googleservices.gradle"
+apply plugin: 'com.github.triplet.play'
 
 import com.android.build.OutputFile
 
-def keystorePropertiesFile = rootProject.file("keystores/keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 ext {
     compileSdkVersion = 26
@@ -40,6 +38,15 @@ ext {
 }
 
 android {
+
+    playAccountConfigs {
+        defaultAccountConfig {
+            serviceAccountEmail = rootProject.ext.serviceAccountEmail
+            pk12File = rootProject.ext.pk12KeyFile
+            jsonFile = rootProject.ext.pJsonKeyFile
+        }
+    }
+
     compileSdkVersion project.ext.compileSdkVersion
     buildToolsVersion project.ext.buildToolsVersion
     defaultConfig {
@@ -55,6 +62,7 @@ android {
                 includeCompileClasspath false
             }
         }
+        playAccountConfig = playAccountConfigs.defaultAccountConfig
     }
 
     dataBinding {
@@ -72,11 +80,19 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile rootProject.file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            keyAlias rootProject.ext.keystoreProperties['keyAlias']
+            keyPassword rootProject.ext.keystoreProperties['keyPassword']
+            storeFile rootProject.file(rootProject.ext.keystoreProperties['storeFile'])
+            storePassword rootProject.ext.keystoreProperties['storePassword']
         }
+    }
+
+    // configurations for deployment
+    play{
+        track = "production"
+        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+        errorOnSizeLimit = false
+        uploadImages = true
     }
 
     buildTypes {
@@ -231,6 +247,15 @@ dependencies {
 
     // ******************* TEST DEPENDENCIES ***************************
     testImplementation "junit:junit:$jUnitVersion"
+    testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
+    testImplementation "org.assertj:assertj-core:$assertJVersion"
+    testImplementation "org.jetbrains.spek:spek-api:$spekVersion"
+    testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mockWebServerVersion"
+
     androidTestCompile("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: "com.android.support", module: "support-annotations"
     })

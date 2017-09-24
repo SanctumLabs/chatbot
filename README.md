@@ -42,9 +42,12 @@ You will need to configure API AI to get a client access token and a dev access 
 
 Once you have those configured, create a `gradle.properties file` in the root of the project.
 
+You will need a service account email setup for automated deployments, read [this](./keystores/README.md) for more context.
+
 ```properties
 API_AI_CLIENT_ACCESS_TOKEN=<CLIENT_ACCESS_TOKEN>
 API_AI_DEV_ACCESS_TOKEN=<DEV_ACCESS_TOKEN>
+CHATBOT_SERVICE_ACCOUNT_EMAIL=<SERVICE_ACCOUNT_EMAIL>
 ```
 > properties to setup in the gradle.properties file
 

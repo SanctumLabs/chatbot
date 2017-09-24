@@ -34,7 +34,6 @@ constructor(@Named("AiService") val aiService: AIService,
         aiRequest.setQuery(message)
     }
 
-    // todo: make ai request in background and return result
     override fun makeAIRequest(): Observable<AIResponse> {
         val aiResponseTask: (AnkoAsyncContext<Any>.() -> Observable<AIResponse>) = {
             Observable.just(aiDataService.request(aiRequest))

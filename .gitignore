@@ -3,6 +3,8 @@
 /local.properties
 .idea/
 keystores/keystore.properties
+keystores/chatbot_publish_key.json
+keystores/chatbot_publish_key.p12
 app/google-services.json
 .DS_Store
 /build
