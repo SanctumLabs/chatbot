@@ -42,7 +42,7 @@ android {
     playAccountConfigs {
         defaultAccountConfig {
             serviceAccountEmail = rootProject.ext.serviceAccountEmail
-            pk12File = rootProject.ext.pk12KeyFile
+            // pk12File = rootProject.ext.pk12KeyFile
             jsonFile = rootProject.ext.pJsonKeyFile
         }
     }
