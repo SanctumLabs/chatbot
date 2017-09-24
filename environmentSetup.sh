@@ -17,7 +17,8 @@ function copyEnvVarsToProperties {
     echo "Gradle Properties should exist at $GRADLE_PROPERTIES"
     echo "Keystore Properties should exist at $KEYSTORE_PROPERTIES"
 
-    if [ ! -f "$KEYSTORE_PROPERTIES" ]; then
+    if [ ! -f "$KEYSTORE_PROPERTIES" ]
+    then
         echo "${KEYSTORE_PROPERTIES} does not exist...Creating file"
 
         touch ${KEYSTORE_PROPERTIES}
@@ -28,7 +29,8 @@ function copyEnvVarsToProperties {
         echo "storePassword=$STORE_PASSWORD" >> ${KEYSTORE_PROPERTIES}
     fi
 
-    if [ ! -f "$GRADLE_PROPERTIES" ]; then
+    if [ ! -f "$GRADLE_PROPERTIES" ]
+    then
         echo "${GRADLE_PROPERTIES} does not exist...Creating Properties file"
 
         touch ${GRADLE_PROPERTIES}
@@ -37,7 +39,8 @@ function copyEnvVarsToProperties {
         echo "CHATBOT_SERVICE_ACCOUNT_EMAIL=$API_AI_DEV_ACCESS_TOKEN" >> ${GRADLE_PROPERTIES}
     fi
 
-    if [ ! -f "$PUBLISH_KEY_FILE" ]; then
+    if [ ! -f "$PUBLISH_KEY_FILE" ]
+    then
         echo "${PUBLISH_KEY_FILE} does not exist...creating properties file"
 
         touch ${PUBLISH_KEY_FILE}
@@ -49,10 +52,11 @@ function copyEnvVarsToProperties {
 
 # download key store file from remote location
 # keystore URI will be the location uri for the *.jks file for signing application
-function downloadKeyStoreFile{
+function downloadKeyStoreFile {
     # use curl to download a keystore from $KEYSTORE_URI, if set,
     # to the path/filename set in $KEYSTORE.
-    if [[ ${KEYSTORE_URI} ]]; then
+    if [[ ${KEYSTORE_URI} ]]
+    then
         echo "Keystore detected - downloading..."
         # we're using curl instead of wget because it will not
         # expose the sensitive uri in the build logs:
