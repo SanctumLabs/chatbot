@@ -5,8 +5,8 @@ import ai.api.android.AIService
 import ai.api.model.AIRequest
 import ai.api.model.AIResponse
 import io.reactivex.Observable
-import io.reactivex.Observer
-import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.AnkoAsyncContext
+import org.jetbrains.anko.doAsyncResult
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -36,16 +36,14 @@ constructor(@Named("AiService") val aiService: AIService,
 
     // todo: make ai request in background and return result
     override fun makeAIRequest(): Observable<AIResponse> {
-        var aiResponse: Observable<AIResponse> = object : Observable<AIResponse>() {
-            override fun subscribeActual(observer: Observer<in AIResponse>?) {
+        val aiResponseTask: (AnkoAsyncContext<Any>.() -> Observable<AIResponse>) = {
+            Observable.just(aiDataService.request(aiRequest))
+        }
 
-            }
-        }
-        doAsync {
-            aiResponse = Observable.just(aiDataService.request(aiRequest))
-            println("doAsync => $aiResponse")
-        }
-        println("doAsync => $aiResponse")
-        return aiResponse
+        val aiResult = doAsyncResult({
+            error("Error encountered fetching AI response with ${it.message}")
+        }, aiResponseTask)
+
+        return aiResult.get()
     }
 }
