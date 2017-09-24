@@ -10,8 +10,8 @@ export KEYSTORE_PROPERTIES=$HOME"/repo/keystores/keystore.properties"
 export PUBLISH_KEY_FILE=$HOME"/repo/keystores/chatbot_publish_key.json"
 export PUBLISH_KEY_FILE_P12=$HOME"/repo/keystores/chatbot_publish_key.p12"
 export STORE_FILE_LOCATION=$HOME"/repo/chatbot.jks"
-export GOOGLE_SERVICES_DEBUG_LOCATION=$HOME"/repo/app/debug/google-services.json"
-export GOOGLE_SERVICES_RELEASE_LOCATION=$HOME"/repo/app/main/google-services.json"
+export GOOGLE_SERVICES_DEBUG_LOCATION=$HOME"/repo/app/src/debug/google-services.json"
+export GOOGLE_SERVICES_RELEASE_LOCATION=$HOME"/repo/app/src/main/google-services.json"
 
 
 function copyEnvVarsToProperties {
@@ -84,6 +84,9 @@ function setupGoogleServicesJsonFiles {
 
     if [ ! -f ${GOOGLE_SERVICES_RELEASE_LOCATION} ]; then
         echo "google-services.json for release not found, downloading...."
+
+        touch ${GOOGLE_SERVICES_RELEASE_LOCATION}
+
         curl -L -o ${GOOGLE_SERVICES_RELEASE_LOCATION} ${GOOGLE_SERVICES_RELEASE_URI}
     else
         echo "google-services.json not downloaded for release."
@@ -93,6 +96,9 @@ function setupGoogleServicesJsonFiles {
 
     if [ ! -f ${GOOGLE_SERVICES_DEBUG_LOCATION} ]; then
         echo "google-services.json for debug not found, downloading...."
+
+        mkdir $HOME"/repo/app/src/debug"
+        touch ${GOOGLE_SERVICES_DEBUG_LOCATION}
         curl -L -o ${GOOGLE_SERVICES_DEBUG_LOCATION} ${GOOGLE_SERVICES_DEBUG_URI}
     else
         echo "google-services.json not downloaded for debug"
