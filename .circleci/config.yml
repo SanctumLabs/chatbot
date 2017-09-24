@@ -30,7 +30,7 @@ jobs:
                                 command: ./gradlew androidDependencies
                         
                         - save_cache:
-                                key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "circle.yml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+                                key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
                                 paths:
                                         - ~/.gradle
                                 keys:
