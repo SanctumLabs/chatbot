@@ -5,14 +5,17 @@
 # 2. https://gist.github.com/KioKrofovitch/716e6a681acb33859d16
 # 3. https://stackoverflow.com/questions/35440907/can-circle-ci-reference-gradle-properties-credentials
 
-function copyEnvVarsToProperties {
-    GRADLE_PROPERTIES=$HOME"/gradle.properties"
-    KEYSTORE_PROPERTIES=$HOME"/keystores/keystore.properties"
-    PUBLISH_KEY_FILE=$HOME"/keystores/chatbot_publish_key.json"
+GRADLE_PROPERTIES=$HOME"/gradle.properties"
+KEYSTORE_PROPERTIES=$HOME"repo/keystores/keystore.properties"
+PUBLISH_KEY_FILE=$HOME"repo/keystores/chatbot_publish_key.json"
+STORE_FILE_LOCATION=$HOME"repo/chatbot.jks"
 
-    export GRADLE_PROPERTIES
-    export KEYSTORE_PROPERTIES
-    export PUBLISH_KEY_FILE
+export GRADLE_PROPERTIES
+export KEYSTORE_PROPERTIES
+export PUBLISH_KEY_FILE
+export STORE_FILE_LOCATION
+
+function copyEnvVarsToProperties {
 
     echo "Gradle Properties should exist at $GRADLE_PROPERTIES"
     echo "Keystore Properties should exist at $KEYSTORE_PROPERTIES"
@@ -55,9 +58,10 @@ function copyEnvVarsToProperties {
 function downloadKeyStoreFile {
     # use curl to download a keystore from $KEYSTORE_URI, if set,
     # to the path/filename set in $KEYSTORE.
-    if [[ ${KEYSTORE_URI} ]]
-    then
-        echo "Keystore detected - downloading..."
+    echo "Looking for $STORE_FILE_LOCATION ..."
+
+    if [ ! -f ${STORE_FILE_LOCATION} ] ; then
+        echo "Keystore file is missing, performing download"
         # we're using curl instead of wget because it will not
         # expose the sensitive uri in the build logs:
         curl -L -o ${STORE_FILE} ${KEYSTORE_URI}
