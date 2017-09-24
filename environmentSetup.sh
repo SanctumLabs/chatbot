@@ -6,9 +6,9 @@
 # 3. https://stackoverflow.com/questions/35440907/can-circle-ci-reference-gradle-properties-credentials
 
 GRADLE_PROPERTIES=$HOME"/gradle.properties"
-KEYSTORE_PROPERTIES=$HOME"repo/keystores/keystore.properties"
-PUBLISH_KEY_FILE=$HOME"repo/keystores/chatbot_publish_key.json"
-STORE_FILE_LOCATION=$HOME"repo/chatbot.jks"
+KEYSTORE_PROPERTIES=$HOME"/repo/keystores/keystore.properties"
+PUBLISH_KEY_FILE=$HOME"/repo/keystores/chatbot_publish_key.json"
+STORE_FILE_LOCATION=$HOME"/repo/chatbot.jks"
 
 export GRADLE_PROPERTIES
 export KEYSTORE_PROPERTIES
@@ -64,7 +64,7 @@ function downloadKeyStoreFile {
         echo "Keystore file is missing, performing download"
         # we're using curl instead of wget because it will not
         # expose the sensitive uri in the build logs:
-        curl -L -o ${STORE_FILE} ${KEYSTORE_URI}
+        curl -L -o ${STORE_FILE} ${KEY_STORE_URI}
     else
         echo "Keystore uri not set.  .APK artifact will not be signed."
     fi
