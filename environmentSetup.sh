@@ -9,6 +9,8 @@ GRADLE_PROPERTIES=$HOME"/gradle.properties"
 KEYSTORE_PROPERTIES=$HOME"/repo/keystores/keystore.properties"
 PUBLISH_KEY_FILE=$HOME"/repo/keystores/chatbot_publish_key.json"
 STORE_FILE_LOCATION=$HOME"/repo/chatbot.jks"
+GOOGLE_SERVICES_DEBUG_LOCATION=$HOME"/repo/app/debug/google-services.json"
+GOOGLE_SERVICES_RELEASE_LOCATION=$HOME"/repo/app/main/google-services.json"
 
 export GRADLE_PROPERTIES
 export KEYSTORE_PROPERTIES
@@ -66,10 +68,34 @@ function downloadKeyStoreFile {
         # expose the sensitive uri in the build logs:
         curl -L -o ${STORE_FILE} ${KEY_STORE_URI}
     else
-        echo "Keystore uri not set.  .APK artifact will not be signed."
+            echo "Keystore uri not set.  .APK artifact will not be signed."
+    fi
+}
+
+# this will download the google-services.json files from secure locations and store them for
+# the CI to build successfully
+function setupGoogleServicesJsonFiles {
+
+    echo "Checking for ${GOOGLE_SERVICES_RELEASE_LOCATION}..."
+
+    if [ ! -f ${GOOGLE_SERVICES_RELEASE_LOCATION} ]; then
+        echo "google-services.json for release not found, downloading...."
+        curl -L -o ${GOOGLE_SERVICES_RELEASE_LOCATION} ${GOOGLE_SERVICES_RELEASE_URI}
+    else
+        echo "google-services.json not downloaded for release."
+    fi
+
+    echo "Checking for ${GOOGLE_SERVICES_DEBUG_LOCATION}..."
+
+    if [ ! -f ${GOOGLE_SERVICES_DEBUG_LOCATION} ]; then
+        echo "google-services.json for debug not found, downloading...."
+        curl -L -o ${GOOGLE_SERVICES_DEBUG_LOCATION} ${GOOGLE_SERVICES_DEBUG_URI}
+    else
+        echo "google-services.json not downloaded for debug"
     fi
 }
 
 # execute functions
 copyEnvVarsToProperties
 downloadKeyStoreFile
+setupGoogleServicesJsonFiles
