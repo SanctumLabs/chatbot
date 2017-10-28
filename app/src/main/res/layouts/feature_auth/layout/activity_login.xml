@@ -13,7 +13,7 @@
             app:cardElevation="3dp"
             app:cardUseCompatPadding="true"
             android:layout_centerInParent="true"
-            android:id="@+id/cv">
+            android:id="@+id/loginCardView">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="50dp"
-                        android:text="@string/login"
+                        android:text="@string/login_string"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
                         android:textStyle="bold"/>
@@ -57,7 +57,7 @@
 
                     <EditText
                             android:textSize="13sp"
-                            android:hint="@string/Username"
+                            android:hint="@string/username_edit_text"
                             android:textColor="#2fa881"
                             android:id="@+id/et_username"
                             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
 
                     <EditText
                             android:textSize="13sp"
-                            android:hint="@string/Password"
+                            android:hint="@string/password_edit_text"
                             android:textColor="#2fa881"
                             android:id="@+id/et_password"
                             android:layout_width="match_parent"
@@ -109,7 +109,7 @@
 
                         android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:text="@string/go"
+                        android:text="@string/go_string"
                         android:textColor="#d3d3d3"
                         >
                 </Button>
@@ -133,9 +133,9 @@
             android:layout_height="wrap_content"
             app:fabSize="normal"
             android:src="@drawable/plus"
-            android:layout_alignTop="@id/cv"
+            android:layout_alignTop="@id/loginCardView"
             android:layout_marginTop="25dp"
-            android:layout_alignEnd="@id/cv"
+            android:layout_alignEnd="@id/loginCardView"
             android:layout_marginEnd="-20dp"/>
 
 </RelativeLayout>

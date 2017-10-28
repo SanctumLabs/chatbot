@@ -1,13 +1,14 @@
 <resources>
     <string name="login_success">login success</string>
-    <string name="login">LOGIN</string>
-    <string name="Username">Username</string>
-    <string name="Password">Password</string>
+    <string name="login_string">LOGIN</string>
+    <string name="username_edit_text">Username or email</string>
+    <string name="password_edit_text">Password</string>
     <string name="forgot_your_password">Forgot your password ?</string>
-    <string name="go">GO</string>
-    <string name="repeat_password">Repeat Password</string>
-    <string name="next">NEXT</string>
-    <string name="register">REGISTER</string>
+    <string name="or_string">OR</string>
+    <string name="go_string">GO</string>
+    <string name="repeat_password_string">Repeat Password</string>
+    <string name="next_string">NEXT</string>
+    <string name="register_string">REGISTER</string>
 
     <string name="transition_name_fab">loginFab</string>
 </resources>
