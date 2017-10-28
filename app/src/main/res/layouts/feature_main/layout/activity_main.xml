@@ -15,7 +15,6 @@
             android:background="#f4f6f7"
             tools:listitem="@layout/item_chat"/>
 
-
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
