@@ -8,7 +8,10 @@ import com.chatbot.di.components.AppComponent
 import com.chatbot.di.components.DaggerAppComponent
 import com.chatbot.di.modules.AppModule
 import com.chatbot.di.modules.DatabaseModule
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.database.FirebaseDatabase
+import io.fabric.sdk.android.Fabric
+
 
 class ChatBotApp : Application() {
 
@@ -24,6 +27,8 @@ class ChatBotApp : Application() {
 
         appComponent.injectApp(this)
 
+        Fabric.with(this, Crashlytics())
+
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
 
@@ -31,4 +36,13 @@ class ChatBotApp : Application() {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
+
+    private fun logUser() {
+        // TODO: Use the current user's information
+        // You can call any combination of these three methods
+        Crashlytics.setUserIdentifier("12345")
+        Crashlytics.setUserEmail("user@fabric.io")
+        Crashlytics.setUserName("Test User")
+    }
+
 }

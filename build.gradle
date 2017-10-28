@@ -2,16 +2,18 @@ buildscript {
     ext.kotlin_version = '1.1.51'
     repositories {
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
         mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-rc1'
+        classpath 'com.android.tools.build:gradle:3.1.0-alpha01'
         classpath 'com.google.gms:google-services:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
         classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
@@ -21,11 +23,40 @@ allprojects {
         mavenCentral()
         google()
         maven { url "https://maven.google.com" }
+        maven { url 'https://maven.fabric.io/public' }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+
+/**
+ * Gets the Chatbot service account email gradle.properties file, Ensure that you have a
+ * gradle.properties file in root project directory
+ * */
+def getChatBotServiceAccountKey = { ->
+    try {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream("gradle.properties"))
+        return properties.getProperty("CHATBOT_SERVICE_ACCOUNT_EMAIL")
+    } catch (Exception ignored) {
+        return ""
+    }
+}
+
+/**
+ * Gets the Fabric API key from gradle.properties file
+ * */
+def getFabricApiKey = { ->
+    try{
+        Properties properties = new Properties()
+        properties.load(new FileInputStream("gradle.properties"))
+        return properties.getProperty("FABRIC_API_KEY")
+    }catch (Exception ignored){
+        return ""
+    }
 }
 
 ext {
@@ -37,6 +68,7 @@ ext {
     pk12KeyFile = rootProject.file("keystores/chatbot_publish_key.p12")
     pJsonKeyFile = rootProject.file("keystores/chatbot_publish_key.json")
     serviceAccountEmail = getChatBotServiceAccountKey()
+    fabricApiKey = getFabricApiKey()
 
     /**
      * Set this to true to create two separate APKs instead of one:
@@ -84,18 +116,4 @@ ext {
     spekVersion = "1.1.2"
     mockitoKotlinVersion = "1.4.0"
     hamcrestVersion = "1.3"
-}
-
-/**
- * Gets the Chatbot service account email gradle.properties file, Ensure that you have a
- * gradle.properties file in root project directory
- * */
-static def getChatBotServiceAccountKey() {
-    try {
-        Properties properties = new Properties()
-        properties.load(new FileInputStream("gradle.properties"))
-        return properties.getProperty("CHATBOT_SERVICE_ACCOUNT_EMAIL")
-    } catch (Exception ignored) {
-        return ""
-    }
 }

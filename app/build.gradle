@@ -1,13 +1,13 @@
-apply plugin: "com.android.application"
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: "signing"
-apply plugin: 'kotlin-kapt'
-apply from: "../googleservices.gradle"
-apply plugin: 'com.github.triplet.play'
-
 import com.android.build.OutputFile
 
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "signing"
+apply plugin: "kotlin-kapt"
+apply from: "../googleservices.gradle"
+apply plugin: "com.github.triplet.play"
+apply plugin: "io.fabric"
 
 ext {
     compileSdkVersion = 26
@@ -32,9 +32,11 @@ ext {
     ankoVersion = "0.10.1"
 
     // reactive
-    rxjava2Version = '2.1.1'
-    rxandroidVersion = '2.0.1'
+    rxjava2Version = "2.1.1"
+    rxandroidVersion = "2.0.1"
     rxKotlinVersion = "2.1.0"
+
+    crashlyticsVersion = "2.7.1@aar"
 }
 
 android {
@@ -63,6 +65,7 @@ android {
             }
         }
         playAccountConfig = playAccountConfigs.defaultAccountConfig
+        manifestPlaceholders = [fabricApiKey: rootProject.ext.fabricApiKey]
     }
 
     dataBinding {
@@ -80,17 +83,17 @@ android {
 
     signingConfigs {
         release {
-            keyAlias rootProject.ext.keystoreProperties['keyAlias']
-            keyPassword rootProject.ext.keystoreProperties['keyPassword']
-            storeFile rootProject.file(rootProject.ext.keystoreProperties['storeFile'])
-            storePassword rootProject.ext.keystoreProperties['storePassword']
+            keyAlias rootProject.ext.keystoreProperties["keyAlias"]
+            keyPassword rootProject.ext.keystoreProperties["keyPassword"]
+            storeFile rootProject.file(rootProject.ext.keystoreProperties["storeFile"])
+            storePassword rootProject.ext.keystoreProperties["storePassword"]
         }
     }
 
     // configurations for deployment
-    play{
+    play {
         track = "production"
-        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+        untrackOld = true // will untrack "alpha" while upload to "beta"
         errorOnSizeLimit = false
         uploadImages = true
     }
@@ -134,6 +137,7 @@ android {
             java.srcDirs += "src/main/kotlin"
             res.srcDirs = [
                     "src/main/res/layouts/feature_main",
+                    "src/main/res/layouts/feature_auth",
                     "src/main/res/layouts/components",
                     "src/main/res/layouts/common",
                     "src/main/res/layouts",
@@ -244,6 +248,11 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "javax.inject:javax.inject:$javaxInjectVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // ***************** crashlytics **********
+    implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion") {
+        transitive = true
+    }
 
     // ******************* TEST DEPENDENCIES ***************************
     testImplementation "junit:junit:$jUnitVersion"
