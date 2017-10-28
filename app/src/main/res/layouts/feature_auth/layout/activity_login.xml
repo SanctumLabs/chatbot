@@ -7,13 +7,13 @@
         android:background="@drawable/bg_layout">
 
     <android.support.v7.widget.CardView
+            android:id="@+id/loginCardView"
             android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_height="450dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="3dp"
             app:cardUseCompatPadding="true"
-            android:layout_centerInParent="true"
-            android:id="@+id/loginCardView">
+            android:layout_centerInParent="true">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -56,10 +56,10 @@
                         android:layout_height="wrap_content">
 
                     <EditText
+                            android:id="@+id/et_username"
                             android:textSize="13sp"
                             android:hint="@string/username_edit_text"
                             android:textColor="#2fa881"
-                            android:id="@+id/et_username"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
@@ -104,18 +104,18 @@
                     android:layout_height="60dp">
 
                 <Button
-                        android:id="@+id/bt_go"
+                        android:id="@+id/loginButton"
                         android:background="@drawable/bt_shape"
-
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:text="@string/go_string"
-                        android:textColor="#d3d3d3"
+                        android:textColor="@color/colorAccent"
                         >
                 </Button>
             </RelativeLayout>
 
             <TextView
+                    android:id="@+id/forgotPasswordTxt"
                     android:layout_marginTop="5dp"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#9a9a9a"
@@ -124,6 +124,31 @@
                     android:layout_height="wrap_content"
                     android:text="@string/forgot_your_password"
                     />
+
+            <View
+                    android:layout_width="220dp"
+                    android:layout_gravity="center"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    />
+
+            <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#9a9a9a"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/or_string"
+                    />
+
+            <include
+                    android:id="@+id/socialLoginLayout"
+                    layout="@layout/partial_social_login"
+                    />
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
