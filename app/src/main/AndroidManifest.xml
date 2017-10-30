@@ -20,6 +20,12 @@
             </intent-filter>
         </activity>
 
+        <!--Login-->
+        <activity android:name=".ui.auth.login.LoginActivity"/>
+
+        <!--Register-->
+        <activity android:name=".ui.auth.register.RegisterActivity"/>
+
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="${fabricApiKey}" />
