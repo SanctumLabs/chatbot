@@ -92,7 +92,7 @@ ext {
     // -------------------- DEPENDENCIES --------------------
 
     // support lib
-    supportLibVersion = "26.1.0"
+    supportLibVersion = "27.0.0"
 
     // multidex
     multiDexEnabledVersion = "1.0.2"
