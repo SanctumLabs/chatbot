@@ -15,4 +15,9 @@ class LoginPresenterImpl<V : LoginView>
 constructor(mDatamanager: DataManager, mCompositeDisposable: CompositeDisposable,
             mSchedulerProvider: SchedulerProvider) : BasePresenterImpl<V>(mDatamanager, mSchedulerProvider, mCompositeDisposable), LoginPresenter<V> {
 
+    override fun onAttach(mBaseView: V) {
+        super.onAttach(mBaseView)
+        baseView.setListeners()
+    }
+
 }

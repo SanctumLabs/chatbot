@@ -14,6 +14,9 @@ import com.chatbot.di.scopes.ActivityScope
 import com.chatbot.ui.auth.login.LoginPresenter
 import com.chatbot.ui.auth.login.LoginPresenterImpl
 import com.chatbot.ui.auth.login.LoginView
+import com.chatbot.ui.auth.recovery.RecoverPassPresenter
+import com.chatbot.ui.auth.recovery.RecoverPassPresenterImpl
+import com.chatbot.ui.auth.recovery.RecoverPassView
 import com.chatbot.ui.auth.register.RegisterPresenter
 import com.chatbot.ui.auth.register.RegisterPresenterImpl
 import com.chatbot.ui.auth.register.RegisterView
@@ -72,6 +75,12 @@ class ActivityModule(val mActivity: AppCompatActivity) {
     @ActivityScope
     fun provideRegisterPresenter(registerPresenter: RegisterPresenterImpl<RegisterView>): RegisterPresenter<RegisterView> {
         return registerPresenter
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideRecoverPresenter(recoverPassPresenter: RecoverPassPresenterImpl<RecoverPassView>): RecoverPassPresenter<RecoverPassView> {
+        return recoverPassPresenter
     }
 
     @Provides

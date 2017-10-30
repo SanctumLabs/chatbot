@@ -153,7 +153,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/loginFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabSize="normal"

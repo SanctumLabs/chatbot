@@ -4,4 +4,5 @@ import com.chatbot.ui.base.BaseView
 
 interface LoginView : BaseView {
 
+    fun setListeners()
 }
