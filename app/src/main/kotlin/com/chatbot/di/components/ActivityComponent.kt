@@ -3,6 +3,7 @@ package com.chatbot.di.components
 import com.chatbot.di.modules.ActivityModule
 import com.chatbot.di.scopes.ActivityScope
 import com.chatbot.ui.auth.login.LoginActivity
+import com.chatbot.ui.auth.recovery.RecoverPassActivity
 import com.chatbot.ui.auth.register.RegisterActivity
 import com.chatbot.ui.main.MainActivity
 import dagger.Component
@@ -14,7 +15,7 @@ import dagger.Component
 @ActivityScope
 @Component(modules = arrayOf(ActivityModule::class), dependencies = arrayOf(AppComponent::class))
 interface ActivityComponent {
-    fun injectActivity(mainActivity: MainActivity)
+    fun injectMainActivity(mainActivity: MainActivity)
 
     /**
      * Inject dependencies into Login Activity
@@ -27,4 +28,10 @@ interface ActivityComponent {
      * @param registerActivity Instance of Register Activity
      * */
     fun injectRegisterActivity(registerActivity: RegisterActivity)
+
+    /**
+     * Inject dependencies into Recovery Activity
+     * @param recoverPassActivity
+     * */
+    fun injectRecoverPassActivity(recoverPassActivity: RecoverPassActivity)
 }
