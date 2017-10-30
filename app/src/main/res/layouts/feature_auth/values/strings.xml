@@ -1,7 +1,9 @@
 <resources>
     <string name="login_success">login success</string>
     <string name="login_string">LOGIN</string>
-    <string name="username_edit_text">Username or email</string>
+    <string name="str_username_login_edit_text">Username or email</string>
+    <string name="str_username_register">Username</string>
+    <string name="str_email_register">Email</string>
     <string name="password_edit_text">Password</string>
     <string name="forgot_your_password">Forgot your password ?</string>
     <string name="or_string">OR</string>

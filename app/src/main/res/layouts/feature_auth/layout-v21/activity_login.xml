@@ -58,7 +58,7 @@
                     <EditText
                             android:id="@+id/et_username"
                             android:textSize="13sp"
-                            android:hint="@string/username_edit_text"
+                            android:hint="@string/str_username_login_edit_text"
                             android:textColor="#2fa881"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
