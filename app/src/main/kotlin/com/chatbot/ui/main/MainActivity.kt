@@ -37,7 +37,7 @@ class MainActivity : BaseActivity(), AIListener, MainView, View.OnClickListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        activityComponent.injectActivity(this)
+        activityComponent.injectMainActivity(this)
 
         mainPresenter.onAttach(this)
 

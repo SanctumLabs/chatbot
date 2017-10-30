@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_layout"
+        android:layout_gravity="center">
+
+    <android.support.v7.widget.CardView
+            android:id="@+id/registerCardView"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="450dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="false">
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+            <android.support.constraint.Guideline
+                    android:id="@+id/registerTopGuideline"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.05"/>
+
+            <android.support.constraint.Guideline
+                    android:id="@+id/registerLeftGuideline"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05"/>
+
+            <android.support.constraint.Guideline
+                    android:id="@+id/registerRightGuideline"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95"/>
+
+            <android.support.constraint.Guideline
+                    android:id="@+id/registerBottomGuideline"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.95"/>
+
+            <TextView
+                    android:id="@+id/registerLabelTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_string"
+                    android:layout_marginStart="50dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/registerTopGuideline"
+                    app:layout_constraintLeft_toRightOf="@+id/registerLeftGuideline"
+                    app:layout_constraintBottom_toTopOf="@+id/registerUsernameTxtInput"
+                    app:layout_constraintRight_toLeftOf="@+id/registerRightGuideline"
+                    />
+
+            <!--username-->
+            <android.support.design.widget.TextInputLayout
+                    android:id="@+id/registerUsernameTxtInput"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="30dp"
+                    android:textColorHint="@android:color/white"
+                    android:theme="@style/TextLabel"
+                    app:layout_constraintBottom_toTopOf="@+id/registerEmailTxtInput"
+                    app:layout_constraintTop_toBottomOf="@+id/registerLabelTxt"
+                    app:layout_constraintLeft_toRightOf="@+id/registerLeftGuideline"
+                    app:layout_constraintRight_toLeftOf="@+id/registerRightGuideline">
+
+                <EditText
+                        android:textSize="13sp"
+                        android:hint="@string/str_username_register"
+                        android:textColor="@android:color/white"
+                        android:id="@+id/registerUsernameEdtTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:paddingBottom="2dp"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--email-->
+            <android.support.design.widget.TextInputLayout
+                    android:id="@+id/registerEmailTxtInput"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:textColorHint="@android:color/white"
+                    android:theme="@style/TextLabel"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="30dp"
+                    app:layout_constraintBottom_toTopOf="@+id/registerPasswordTxtInput"
+                    app:layout_constraintTop_toBottomOf="@+id/registerUsernameTxtInput"
+                    app:layout_constraintLeft_toRightOf="@+id/registerLeftGuideline"
+                    app:layout_constraintRight_toLeftOf="@+id/registerRightGuideline">
+
+                <EditText
+                        android:textSize="13sp"
+                        android:hint="@string/str_email_register"
+                        android:textColor="@android:color/white"
+                        android:id="@+id/registerEmailEdtTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:paddingBottom="2dp"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--Password-->
+            <android.support.design.widget.TextInputLayout
+                    android:id="@+id/registerPasswordTxtInput"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="30dp"
+                    android:layout_height="40dp"
+                    android:textColorHint="@android:color/white"
+                    android:theme="@style/TextLabel"
+                    android:layout_width="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/registerRepeatPasswordTxtInput"
+                    app:layout_constraintTop_toBottomOf="@+id/registerEmailTxtInput"
+                    app:layout_constraintLeft_toRightOf="@+id/registerLeftGuideline"
+                    app:layout_constraintRight_toLeftOf="@+id/registerRightGuideline">
+
+                <EditText
+                        android:textSize="13sp"
+                        android:hint="@string/password_edit_text"
+                        android:textColor="@android:color/white"
+                        android:id="@+id/registerPasswordEdtTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:paddingBottom="2dp"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--verify password-->
+            <android.support.design.widget.TextInputLayout
+                    android:id="@+id/registerRepeatPasswordTxtInput"
+                    android:layout_height="40dp"
+                    android:layout_width="0dp"
+                    android:paddingStart="50dp"
+                    android:paddingEnd="30dp"
+                    android:textColorHint="@android:color/white"
+                    android:theme="@style/TextLabel"
+                    app:layout_constraintBottom_toTopOf="@+id/registerButton"
+                    app:layout_constraintTop_toBottomOf="@+id/registerPasswordTxtInput"
+                    app:layout_constraintLeft_toRightOf="@+id/registerLeftGuideline"
+                    app:layout_constraintRight_toLeftOf="@+id/registerRightGuideline">
+
+                <EditText
+                        android:textSize="13sp"
+                        android:textColor="@android:color/white"
+                        android:hint="@string/repeat_password_string"
+                        android:id="@+id/registerRepeatPasswordEdtTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:paddingBottom="2dp"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- register button-->
+            <Button
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/registerButton"
+                    android:background="@drawable/bt_shape_2"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:text="@string/next_string"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintTop_toBottomOf="@+id/registerRepeatPasswordTxtInput"
+                    app:layout_constraintBottom_toBottomOf="@id/registerBottomGuideline"
+                    app:layout_constraintLeft_toRightOf="@+id/registerLeftGuideline"
+                    app:layout_constraintRight_toLeftOf="@+id/registerRightGuideline"
+                    />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/registerFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="normal"
+            android:src="@drawable/plus_x"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:layout_anchorGravity="center_horizontal"
+            app:layout_anchor="@+id/registerCardView"/>
+
+</android.support.design.widget.CoordinatorLayout>

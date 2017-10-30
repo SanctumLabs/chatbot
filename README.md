@@ -50,10 +50,17 @@ You will need a service account email setup for automated deployments, read [thi
 API_AI_CLIENT_ACCESS_TOKEN=<CLIENT_ACCESS_TOKEN>
 API_AI_DEV_ACCESS_TOKEN=<DEV_ACCESS_TOKEN>
 CHATBOT_SERVICE_ACCOUNT_EMAIL=<SERVICE_ACCOUNT_EMAIL>
+FABRIC_API_KEY=<FABRIC_API_KEY>
 ```
 > properties to setup in the gradle.properties file
 
-3. ***keystore.properties file***
+3. **Fabric SDK**
+
+You will need the fabric SDK installed and configured for the application, insert the api key in `gradle.properties` as stated above, once you have the application setup.
+
+Sign up for Fabric [here](https://fabric.io/) and set up the application to use Fabric.
+
+4. ***keystore.properties file***
 
 This is necessary, especially for signing of the application for release.
 

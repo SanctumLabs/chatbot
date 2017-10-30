@@ -11,6 +11,15 @@ import com.chatbot.data.io.SchedulerProviderImpl
 import com.chatbot.di.qualifier.ActivityCtxQualifier
 import com.chatbot.di.qualifier.DatabaseRefQualifier
 import com.chatbot.di.scopes.ActivityScope
+import com.chatbot.ui.auth.login.LoginPresenter
+import com.chatbot.ui.auth.login.LoginPresenterImpl
+import com.chatbot.ui.auth.login.LoginView
+import com.chatbot.ui.auth.recovery.RecoverPassPresenter
+import com.chatbot.ui.auth.recovery.RecoverPassPresenterImpl
+import com.chatbot.ui.auth.recovery.RecoverPassView
+import com.chatbot.ui.auth.register.RegisterPresenter
+import com.chatbot.ui.auth.register.RegisterPresenterImpl
+import com.chatbot.ui.auth.register.RegisterView
 import com.chatbot.ui.main.MainAdapter
 import com.chatbot.ui.main.MainPresenter
 import com.chatbot.ui.main.MainPresenterImpl
@@ -57,6 +66,24 @@ class ActivityModule(val mActivity: AppCompatActivity) {
     }
 
     @Provides
+    @ActivityScope
+    fun provideLoginPresenter(loginPresenter: LoginPresenterImpl<LoginView>): LoginPresenter<LoginView> {
+        return loginPresenter
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideRegisterPresenter(registerPresenter: RegisterPresenterImpl<RegisterView>): RegisterPresenter<RegisterView> {
+        return registerPresenter
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideRecoverPresenter(recoverPassPresenter: RecoverPassPresenterImpl<RecoverPassView>): RecoverPassPresenter<RecoverPassView> {
+        return recoverPassPresenter
+    }
+
+    @Provides
     @DatabaseRefQualifier
     fun provideFirebaseDatabase(): DatabaseReference {
         val dbRef = FirebaseDatabase.getInstance().reference
@@ -65,7 +92,7 @@ class ActivityModule(val mActivity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideMainAdapter(@DatabaseRefQualifier databaseRef: DatabaseReference): MainAdapter{
+    fun provideMainAdapter(@DatabaseRefQualifier databaseRef: DatabaseReference): MainAdapter {
         return MainAdapter(databaseRef)
     }
 

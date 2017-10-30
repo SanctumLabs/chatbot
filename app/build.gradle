@@ -1,13 +1,13 @@
-apply plugin: "com.android.application"
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: "signing"
-apply plugin: 'kotlin-kapt'
-apply from: "../googleservices.gradle"
-apply plugin: 'com.github.triplet.play'
-
 import com.android.build.OutputFile
 
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "signing"
+apply plugin: "kotlin-kapt"
+apply from: "../googleservices.gradle"
+apply plugin: "com.github.triplet.play"
+apply plugin: "io.fabric"
 
 ext {
     compileSdkVersion = 26
@@ -20,6 +20,7 @@ ext {
     // firebase db version
     firebaseDatabaseVersion = "11.4.2"
     firbaseUiDbVersion = "2.3.0"
+    firebaseAuthVersion = "11.4.2"
 
     // API AI VERSION
     apiSdkVersion = "2.0.7@aar"
@@ -32,9 +33,11 @@ ext {
     ankoVersion = "0.10.1"
 
     // reactive
-    rxjava2Version = '2.1.1'
-    rxandroidVersion = '2.0.1'
+    rxjava2Version = "2.1.1"
+    rxandroidVersion = "2.0.1"
     rxKotlinVersion = "2.1.0"
+
+    crashlyticsVersion = "2.7.1@aar"
 }
 
 android {
@@ -63,6 +66,7 @@ android {
             }
         }
         playAccountConfig = playAccountConfigs.defaultAccountConfig
+        manifestPlaceholders = [fabricApiKey: rootProject.ext.fabricApiKey]
     }
 
     dataBinding {
@@ -80,17 +84,17 @@ android {
 
     signingConfigs {
         release {
-            keyAlias rootProject.ext.keystoreProperties['keyAlias']
-            keyPassword rootProject.ext.keystoreProperties['keyPassword']
-            storeFile rootProject.file(rootProject.ext.keystoreProperties['storeFile'])
-            storePassword rootProject.ext.keystoreProperties['storePassword']
+            keyAlias rootProject.ext.keystoreProperties["keyAlias"]
+            keyPassword rootProject.ext.keystoreProperties["keyPassword"]
+            storeFile rootProject.file(rootProject.ext.keystoreProperties["storeFile"])
+            storePassword rootProject.ext.keystoreProperties["storePassword"]
         }
     }
 
     // configurations for deployment
-    play{
+    play {
         track = "production"
-        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+        untrackOld = true // will untrack "alpha" while upload to "beta"
         errorOnSizeLimit = false
         uploadImages = true
     }
@@ -134,6 +138,7 @@ android {
             java.srcDirs += "src/main/kotlin"
             res.srcDirs = [
                     "src/main/res/layouts/feature_main",
+                    "src/main/res/layouts/feature_auth",
                     "src/main/res/layouts/components",
                     "src/main/res/layouts/common",
                     "src/main/res/layouts",
@@ -214,8 +219,11 @@ dependencies {
 
     // ********************* SUPPORT LIBRARY ******************************
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
     implementation "com.android.support:multidex:$multiDexEnabledVersion"
+    implementation "com.android.support:cardview-v7:$supportLibVersion"
+    implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
     // ************************** KOTLIN VERSION **********************
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -223,6 +231,7 @@ dependencies {
     // *********************** FIREBASE DEPENDENCIES *********************
     implementation "com.google.firebase:firebase-database:$firebaseDatabaseVersion"
     implementation "com.firebaseui:firebase-ui-database:$firbaseUiDbVersion"
+    implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
 
     // ************** API AI ******************
     implementation "ai.api:sdk:$apiSdkVersion"
@@ -244,6 +253,11 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "javax.inject:javax.inject:$javaxInjectVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // ***************** crashlytics **********
+    implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion") {
+        transitive = true
+    }
 
     // ******************* TEST DEPENDENCIES ***************************
     testImplementation "junit:junit:$jUnitVersion"
