@@ -2,5 +2,8 @@
 <transitionSet
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:duration="300">
-    <changeBounds/>
+
+    <changeBounds>
+
+    </changeBounds>
 </transitionSet>

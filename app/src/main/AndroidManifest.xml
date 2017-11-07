@@ -13,25 +13,30 @@
             android:roundIcon="@mipmap/ic_launcher"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.MainActivity">
+
+        <activity android:name=".ui.main.MainActivity"/>
+
+        <!--Login-->
+        <activity
+                android:name=".ui.auth.login.LoginActivity"
+                android:theme="@style/Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <!--Login-->
-        <activity android:name=".ui.auth.login.LoginActivity"/>
-
         <!--Register-->
-        <activity android:name=".ui.auth.register.RegisterActivity"/>
+        <activity
+                android:name=".ui.auth.register.RegisterActivity"
+                android:theme="@style/Translucent"/>
 
         <!--Recover-->
         <activity android:name=".ui.auth.recovery.RecoverPassActivity"/>
 
         <meta-data
                 android:name="io.fabric.ApiKey"
-                android:value="${fabricApiKey}" />
+                android:value="${fabricApiKey}"/>
     </application>
 
 </manifest>

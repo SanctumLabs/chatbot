@@ -12,9 +12,9 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
 import android.view.animation.AccelerateInterpolator
-import android.view.ViewAnimationUtils
 import android.os.Build
 import android.support.annotation.RequiresApi
+import android.view.ViewAnimationUtils
 
 
 /**
@@ -37,11 +37,10 @@ class RegisterActivity : BaseActivity(), RegisterView, View.OnClickListener {
         registerPresenter.onAttach(this)
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun showEnterAnimation() {
-        val transition = TransitionInflater.from(this).inflateTransition(R.transition.fabtransition)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.sharedElementEnterTransition = transition
-        }
+        val transition = TransitionInflater.from(this).inflateTransition(R.transition.transition_arc_motion)
+        window.sharedElementEnterTransition = transition
         transition.addListener(object : Transition.TransitionListener {
             override fun onTransitionStart(transition: Transition) {
                 registerCardView.visibility = View.GONE
@@ -80,12 +79,15 @@ class RegisterActivity : BaseActivity(), RegisterView, View.OnClickListener {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun animateRevealShow() {
-        val mAnimator = ViewAnimationUtils.createCircularReveal(registerCardView,
-                registerCardView.width / 2, 0, (registerFab.width / 2).toFloat(), registerCardView.height.toFloat())
+        val mAnimator = ViewAnimationUtils.createCircularReveal(
+                registerCardView,
+                registerCardView.width / 2, 0,
+                (registerFab.width / 2).toFloat(),
+                registerCardView.height.toFloat()
+        )
         mAnimator.duration = 500
         mAnimator.interpolator = AccelerateInterpolator()
         mAnimator.addListener(object : AnimatorListenerAdapter() {
-
             override fun onAnimationStart(animation: Animator) {
                 registerCardView.visibility = View.VISIBLE
                 super.onAnimationStart(animation)
@@ -96,24 +98,23 @@ class RegisterActivity : BaseActivity(), RegisterView, View.OnClickListener {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun animateRevealClose() {
-        val mAnimator = ViewAnimationUtils.createCircularReveal(registerCardView,
+        val mAnimator = ViewAnimationUtils.createCircularReveal(
+                registerCardView,
                 registerCardView.width / 2, 0,
-                registerCardView.height.toFloat(), (registerFab.width / 2).toFloat())
+                registerCardView.height.toFloat(),
+                (registerFab.width / 2).toFloat()
+        )
         mAnimator.duration = 500
         mAnimator.interpolator = AccelerateInterpolator()
         mAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 registerCardView.visibility = View.INVISIBLE
-                super.onAnimationEnd(animation)
                 registerFab.setImageResource(R.drawable.plus)
+                super.onAnimationEnd(animation)
                 onBackPressed()
             }
         })
         mAnimator.start()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        animateRevealClose()
-    }
 }

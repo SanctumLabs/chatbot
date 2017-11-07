@@ -1,10 +1,9 @@
 <resources>
 
-    <style name="Translucent" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Translucent" parent="AppTheme">
         <item name="colorPrimaryDark">#0288D1</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-
     </style>
 
     <style name="TextLabel" parent="Theme.AppCompat.Light.NoActionBar">
