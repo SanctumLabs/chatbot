@@ -11,9 +11,6 @@ import javax.inject.Inject
 import com.chatbot.ui.auth.register.RegisterActivity
 import android.content.Intent
 import android.os.Build
-import android.support.v4.view.ViewCompat
-import android.util.Pair
-
 
 /**
  * @author lusinabrian on 30/10/17.
@@ -48,9 +45,7 @@ class LoginActivity : BaseActivity(), LoginView, View.OnClickListener {
             loginFab -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val options = ActivityOptions.makeSceneTransitionAnimation(
-                            this,
-                            loginFab,
-                            loginFab.transitionName)
+                            this, loginFab, loginFab.transitionName)
                     startActivity(Intent(this, RegisterActivity::class.java),
                             options.toBundle())
                 } else {
