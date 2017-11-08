@@ -74,6 +74,10 @@ class RegisterActivity : BaseActivity(), RegisterView, View.OnClickListener {
             registerFab -> {
                 registerPresenter.onRegisterClose()
             }
+
+            registerButton -> {
+
+            }
         }
     }
 

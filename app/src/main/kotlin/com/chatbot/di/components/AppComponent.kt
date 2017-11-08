@@ -7,6 +7,7 @@ import com.chatbot.data.DataManager
 import com.chatbot.di.modules.AIModule
 import com.chatbot.di.modules.AppModule
 import com.chatbot.di.modules.DatabaseModule
+import com.chatbot.di.modules.FirebaseModule
 import com.chatbot.di.qualifier.AppCtxQualifier
 import dagger.Component
 import javax.inject.Singleton
@@ -16,7 +17,7 @@ import javax.inject.Singleton
  * @Notes app component
  */
 @Singleton
-@Component(modules = arrayOf(AppModule::class, DatabaseModule::class, AIModule::class))
+@Component(modules = arrayOf(AppModule::class, DatabaseModule::class, AIModule::class, FirebaseModule::class))
 interface AppComponent {
     fun injectApp(chatBotApp: ChatBotApp)
 
