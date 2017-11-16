@@ -21,8 +21,9 @@ class SplashActivity : BaseActivity(), SplashView {
     @Inject
     lateinit var splashPresenter: SplashPresenter<SplashView>
 
-    @Inject
-    lateinit var firebaseAuth: FirebaseAuth
+    val firebaseAuth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +37,13 @@ class SplashActivity : BaseActivity(), SplashView {
     }
 
     override fun setupView() {
-        val scaleY = Animator(AnimType.SCALEY, 5.0, 3.0, 0.5, 1.0)
-        val rotate = Animator(AnimType.ROTATEY, 5.0, 3.0, 180.0, 0.0)
-        rotate.delay = 100
-        scaleY.delay = 200
-        rotate.startSpring(splashImage)
-        scaleY.startSpring(splashImage)
+        // fixme: fix Rebound animation of splash logo
+//        val scaleY = Animator(AnimType.SCALEY, 5.0, 3.0, 0.5, 1.0)
+//        val rotate = Animator(AnimType.ROTATEY, 5.0, 3.0, 180.0, 0.0)
+//        rotate.delay = 100
+//        scaleY.delay = 200
+//        rotate.startSpring(splashImage)
+//        scaleY.startSpring(splashImage)
     }
 
     override fun onStart() {

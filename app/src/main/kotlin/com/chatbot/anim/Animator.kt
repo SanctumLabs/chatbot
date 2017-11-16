@@ -65,11 +65,11 @@ class Animator(var type: AnimType, var startValue: Double, var endValue: Double)
                 }
 
                 override fun onSpringAtRest(spring: Spring) {
-                    animListener.onSpringStop()
+                    //animListener.onSpringStop()
                 }
 
                 override fun onSpringActivate(spring: Spring) {
-                    animListener.onSpringStart()
+                    //animListener.onSpringStart()
                 }
 
             })
