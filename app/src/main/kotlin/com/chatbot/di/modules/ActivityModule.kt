@@ -24,6 +24,9 @@ import com.chatbot.ui.main.MainAdapter
 import com.chatbot.ui.main.MainPresenter
 import com.chatbot.ui.main.MainPresenterImpl
 import com.chatbot.ui.main.MainView
+import com.chatbot.ui.splash.SplashPresenter
+import com.chatbot.ui.splash.SplashPresenterImpl
+import com.chatbot.ui.splash.SplashView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
@@ -76,6 +79,10 @@ class ActivityModule(val mActivity: AppCompatActivity) {
     fun provideRegisterPresenter(registerPresenter: RegisterPresenterImpl<RegisterView>): RegisterPresenter<RegisterView> {
         return registerPresenter
     }
+
+    @Provides
+    @ActivityScope
+    fun provideSplashPresenter(splashPresenter: SplashPresenterImpl<SplashView>) : SplashPresenter<SplashView> = splashPresenter
 
     @Provides
     @ActivityScope

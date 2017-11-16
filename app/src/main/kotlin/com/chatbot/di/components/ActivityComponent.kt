@@ -6,6 +6,7 @@ import com.chatbot.ui.auth.login.LoginActivity
 import com.chatbot.ui.auth.recovery.RecoverPassActivity
 import com.chatbot.ui.auth.register.RegisterActivity
 import com.chatbot.ui.main.MainActivity
+import com.chatbot.ui.splash.SplashActivity
 import dagger.Component
 
 /**
@@ -15,6 +16,13 @@ import dagger.Component
 @ActivityScope
 @Component(modules = arrayOf(ActivityModule::class), dependencies = arrayOf(AppComponent::class))
 interface ActivityComponent {
+
+    /**
+     * Inject dependencies into Splash Activity
+     * @param splashActivity Entry point of application
+     * */
+    fun injectSplashActivity(splashActivity: SplashActivity)
+
     fun injectMainActivity(mainActivity: MainActivity)
 
     /**

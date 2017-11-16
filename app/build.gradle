@@ -140,6 +140,7 @@ android {
             res.srcDirs = [
                     "src/main/res/layouts/feature_main",
                     "src/main/res/layouts/feature_auth",
+                    "src/main/res/layouts/feature_splash",
                     "src/main/res/layouts/components",
                     "src/main/res/layouts/common",
                     "src/main/res/layouts",
