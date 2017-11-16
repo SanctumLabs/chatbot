@@ -2,10 +2,13 @@ package com.chatbot.ui.splash
 
 import android.os.Bundle
 import com.chatbot.R
+import com.chatbot.anim.AnimType
+import com.chatbot.anim.Animator
 import com.chatbot.ui.auth.register.RegisterActivity
 import com.chatbot.ui.base.BaseActivity
 import com.chatbot.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -32,10 +35,19 @@ class SplashActivity : BaseActivity(), SplashView {
         splashPresenter.onAttach(this)
     }
 
+    override fun setupView() {
+        val scaleY = Animator(AnimType.SCALEY, 5.0, 3.0, 0.5, 1.0)
+        val rotate = Animator(AnimType.ROTATEY, 5.0, 3.0, 180.0, 0.0)
+        rotate.delay = 100
+        scaleY.delay = 200
+        rotate.startSpring(splashImage)
+        scaleY.startSpring(splashImage)
+    }
+
     override fun onStart() {
         super.onStart()
-        // if current user is not null, start up the register activity
-        if (firebaseAuth.currentUser != null) {
+        // if current user is null, start up the register activity
+        if (firebaseAuth.currentUser == null) {
             splashPresenter.onStart()
         } else {
             splashPresenter.onUserSessionActive()

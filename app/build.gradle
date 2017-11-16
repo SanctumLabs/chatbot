@@ -39,6 +39,8 @@ ext {
     rxKotlinVersion = "2.1.0"
 
     crashlyticsVersion = "2.7.1@aar"
+
+    reboundVersion = "0.3.8"
 }
 
 android {
@@ -255,6 +257,9 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "javax.inject:javax.inject:$javaxInjectVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // rebound
+    implementation "com.facebook.rebound:rebound:$reboundVersion"
 
     // ***************** crashlytics **********
     implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion") {

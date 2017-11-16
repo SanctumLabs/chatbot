@@ -15,6 +15,11 @@ class SplashPresenterImpl<V : SplashView>
 constructor(mDatamanager: DataManager, mCompositeDisposable: CompositeDisposable,
             mSchedulerProvider: SchedulerProvider) : BasePresenterImpl<V>(mDatamanager, mSchedulerProvider, mCompositeDisposable), SplashPresenter<V> {
 
+    override fun onAttach(mBaseView: V) {
+        super.onAttach(mBaseView)
+        baseView.setupView()
+    }
+
     override fun onStart() {
         baseView.openRegisterScreen()
     }
