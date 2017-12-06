@@ -20,12 +20,9 @@ import org.junit.runner.RunWith
 @MediumTest
 class RegisterActivityTest {
 
-    companion object {
-        @Rule
-        @ClassRule
-        @JvmStatic
-        val activityTestRule : ActivityTestRule<RegisterActivity> = ActivityTestRule(RegisterActivity::class.java)
-    }
+    @Rule
+    @JvmField
+    val activityTestRule  = ActivityTestRule<RegisterActivity>(RegisterActivity::class.java)
 
     @Before
     fun setUp() {
