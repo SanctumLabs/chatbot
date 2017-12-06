@@ -18,9 +18,9 @@ ext {
     versionName = "1.0"
 
     // firebase db version
-    firebaseDatabaseVersion = "11.6.0"
+    firebaseDatabaseVersion = "11.6.2"
     firbaseUiDbVersion = "2.3.0"
-    firebaseAuthVersion = "11.6.0"
+    firebaseAuthVersion = "11.6.2"
     constraintLayoutVersion = "1.0.2"
 
     // API AI VERSION
@@ -277,6 +277,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockWebServerVersion"
 
+    androidTestCompile "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: "com.android.support", module: "support-annotations"
     })

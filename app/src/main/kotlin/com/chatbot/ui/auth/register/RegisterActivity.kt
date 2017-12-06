@@ -1,20 +1,26 @@
 package com.chatbot.ui.auth.register
 
-import android.os.Bundle
-import android.transition.Transition
-import android.transition.TransitionInflater
-import android.view.View
-import com.chatbot.R
-import com.chatbot.ui.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_register.*
-import javax.inject.Inject
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
-import android.view.animation.AccelerateInterpolator
 import android.os.Build
+import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.text.TextUtils
+import android.transition.Transition
+import android.transition.TransitionInflater
+import android.view.View
 import android.view.ViewAnimationUtils
+import android.view.animation.AccelerateInterpolator
+import com.chatbot.R
+import com.chatbot.ui.base.BaseActivity
+import com.chatbot.utils.isEmailValid
+import com.chatbot.utils.validatePasswords
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_register.*
+import org.jetbrains.anko.error
+import org.jetbrains.anko.toast
+import javax.inject.Inject
 
 
 /**
@@ -25,6 +31,10 @@ class RegisterActivity : BaseActivity(), RegisterView, View.OnClickListener {
 
     @Inject
     lateinit var registerPresenter: RegisterPresenter<RegisterView>
+
+    private val firebaseAuth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +77,9 @@ class RegisterActivity : BaseActivity(), RegisterView, View.OnClickListener {
 
     override fun setListeners() {
         registerFab.setOnClickListener(this)
+
+        registerRepeatPasswordEdtTxt.error = null
+        registerPasswordEdtTxt.error = null
     }
 
     override fun onClick(v: View?) {
@@ -76,7 +89,45 @@ class RegisterActivity : BaseActivity(), RegisterView, View.OnClickListener {
             }
 
             registerButton -> {
+                val username = registerUsernameEdtTxt.text.toString()
+                val email = registerEmailEdtTxt.text.toString()
+                val password = registerPasswordEdtTxt.text.toString()
+                val retypePassword = registerRepeatPasswordEdtTxt.text.toString()
 
+                if(TextUtils.isEmpty(username)){
+                    registerUsernameEdtTxt.error = "Username can not be empty"
+                }
+
+                if(isEmailValid(email)){
+                    registerEmailEdtTxt.error = "Enter valid email address"
+                }
+
+                // check if passwords match
+                if (!validatePasswords(password, retypePassword)) {
+                    // set error
+                    registerRepeatPasswordEdtTxt.error = "Passwords must match"
+                    registerPasswordEdtTxt.error = "Passwords must match"
+                } else {
+                    // pick fields and submit to firebase
+                    firebaseAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(this, {
+                                if (it.isSuccessful) {
+                                    // login the user
+                                    val user = firebaseAuth.currentUser
+
+                                    // store credentials to local database
+
+                                    // pass this to database reference
+
+                                    toast("Welcome ${user?.displayName}")
+                                } else {
+                                    // registration has failed
+                                    error("Failed to create user with error${it.exception}",
+                                            it.exception)
+                                    toast("Authentication Failed")
+                                }
+                            })
+                }
             }
         }
     }

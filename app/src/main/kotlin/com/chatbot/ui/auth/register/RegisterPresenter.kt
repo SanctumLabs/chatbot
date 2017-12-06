@@ -7,4 +7,9 @@ interface RegisterPresenter<V : RegisterView> : BasePresenter<V> {
     fun onRegisterClose()
 
     fun onTransitionEnd()
+
+    /**
+     * Closes register screen
+     * */
+    fun closeRegisterScreen()
 }

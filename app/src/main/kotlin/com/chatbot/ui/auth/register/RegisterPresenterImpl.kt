@@ -30,6 +30,11 @@ constructor(mDatamanager: DataManager, mCompositeDisposable: CompositeDisposable
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             baseView.animateRevealClose()
         }
+        closeRegisterScreen()
+    }
+
+    override fun closeRegisterScreen() {
+
     }
 
     override fun onTransitionEnd() {

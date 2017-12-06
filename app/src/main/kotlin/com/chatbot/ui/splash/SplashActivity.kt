@@ -2,13 +2,10 @@ package com.chatbot.ui.splash
 
 import android.os.Bundle
 import com.chatbot.R
-import com.chatbot.anim.AnimType
-import com.chatbot.anim.Animator
 import com.chatbot.ui.auth.register.RegisterActivity
 import com.chatbot.ui.base.BaseActivity
 import com.chatbot.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -21,11 +18,12 @@ class SplashActivity : BaseActivity(), SplashView {
     @Inject
     lateinit var splashPresenter: SplashPresenter<SplashView>
 
-    val firebaseAuth: FirebaseAuth by lazy {
+    private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // setTheme(R.style.SplashTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
@@ -58,9 +56,11 @@ class SplashActivity : BaseActivity(), SplashView {
 
     override fun openRegisterScreen() {
         startActivity<RegisterActivity>()
+        finish()
     }
 
     override fun openMainScreen() {
         startActivity<MainActivity>()
+        finish()
     }
 }

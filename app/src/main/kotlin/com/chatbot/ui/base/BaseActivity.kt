@@ -11,6 +11,7 @@ import com.chatbot.app.ChatBotApp
 import com.chatbot.di.components.ActivityComponent
 import com.chatbot.di.components.DaggerActivityComponent
 import com.chatbot.di.modules.ActivityModule
+import org.jetbrains.anko.AnkoLogger
 
 /**
  * @author lusinabrian on 10/06/17.
@@ -18,10 +19,13 @@ import com.chatbot.di.modules.ActivityModule
  * @Notes
  */
 
-abstract class BaseActivity : AppCompatActivity(), BaseView, BaseFragment.Callback {
+abstract class BaseActivity : AppCompatActivity(), BaseView, BaseFragment.Callback, AnkoLogger {
 
     // fields
     lateinit var activityComponent: ActivityComponent
+
+    override val loggerTag: String
+        get() = super.loggerTag
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

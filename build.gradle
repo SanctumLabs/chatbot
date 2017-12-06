@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.1.60'
+    ext.kotlin_version = '1.2.0'
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-alpha03'
+        classpath 'com.android.tools.build:gradle:3.1.0-alpha05'
         classpath 'com.google.gms:google-services:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -92,7 +92,7 @@ ext {
     // -------------------- DEPENDENCIES --------------------
 
     // support lib
-    supportLibVersion = "27.0.1"
+    supportLibVersion = "27.0.2"
 
     // multidex
     multiDexEnabledVersion = "1.0.2"
@@ -105,12 +105,12 @@ ext {
 
     // -------------------- TEST DEPENDENCIES -----------------------
     jUnitVersion = "4.12"
-    espressoVersion = "3.0.0"
+    espressoVersion = "3.0.1"
     truthVersion = "0.35"
     mockitoVersion = "2.7.1"
     mockWebServerVersion = "3.6.0"
     robolectricVersion = "3.3.2"
-    testRunnerVersion = "1.0.0"
+    testRunnerVersion = "1.0.1"
     espressoContribVersion = "2.0"
     assertJVersion = "3.6.2"
     spekVersion = "1.1.2"
