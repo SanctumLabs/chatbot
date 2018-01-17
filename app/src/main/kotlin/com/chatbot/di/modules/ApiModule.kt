@@ -1,6 +1,7 @@
 package com.chatbot.di.modules
 
 import com.chatbot.data.api.ApiHelper
+import com.chatbot.data.api.ApiHelperImpl
 import dagger.Module
 import dagger.Provides
 
@@ -12,7 +13,7 @@ import dagger.Provides
 class ApiModule {
 
     @Provides
-    fun provideApiHelper(apiHelper: ApiHelper) : ApiHelper{
+    fun provideApiHelper(apiHelper: ApiHelperImpl) : ApiHelper{
         return apiHelper
     }
 }

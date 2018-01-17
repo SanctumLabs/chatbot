@@ -47,7 +47,8 @@ class LoginActivity : BaseActivity(), LoginView, View.OnClickListener {
     }
 
     override fun setListeners() {
-        loginFab.setOnClickListener(this)
+        fab_login.setOnClickListener(this)
+        button_login.setOnClickListener(this)
         fabTwitter.setOnClickListener(this)
         fabFacebook.setOnClickListener(this)
         fabGithub.setOnClickListener(this)
@@ -56,10 +57,10 @@ class LoginActivity : BaseActivity(), LoginView, View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.loginFab -> {
+            R.id.fab_login -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val options = ActivityOptions.makeSceneTransitionAnimation(
-                            this, loginFab, loginFab.transitionName)
+                            this, fab_login, fab_login.transitionName)
                     startActivity(Intent(this, RegisterActivity::class.java),
                             options.toBundle())
                 } else {
@@ -67,14 +68,14 @@ class LoginActivity : BaseActivity(), LoginView, View.OnClickListener {
                 }
             }
 
-            R.id.loginButton -> {
+            R.id.button_login -> {
                 // check if fields are valid before performing network call
 
                 // is network available?
                 if (isNetworkConnected(this)) {
                     // send user data to the server
-                    val password = edittext_password.editText.text.toString()
-                    val usernameOrEmail = edittext_username.editText.text.toString()
+                    val password = edittext_password.text.toString()
+                    val usernameOrEmail = edittext_username.text.toString()
 
                     if (TextUtils.isEmpty(password)) {
                         // display error message on password field
@@ -112,11 +113,11 @@ class LoginActivity : BaseActivity(), LoginView, View.OnClickListener {
 
     override fun setPasswordError(errorMessage: String) {
         super.setPasswordError(errorMessage)
-        edittext_password.editText.error = errorMessage
+        edittext_password.error = errorMessage
     }
 
     override fun setUsernameError(errorMessage: String) {
         super.setUsernameError(errorMessage)
-        edittext_username.editText.error = errorMessage
+        edittext_username.error = errorMessage
     }
 }
