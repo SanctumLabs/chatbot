@@ -1,5 +1,7 @@
 package com.chatbot.ui.auth.login
 
+import android.support.design.widget.Snackbar
+import com.chatbot.R
 import com.chatbot.data.DataManager
 import com.chatbot.data.io.SchedulerProvider
 import com.chatbot.ui.base.BasePresenterImpl
@@ -20,4 +22,24 @@ constructor(mDatamanager: DataManager, mCompositeDisposable: CompositeDisposable
         baseView.setListeners()
     }
 
+    override fun onLoginButtonClicked(usernameOrEmail: String, password: String) {
+        // checks with firebase whether these credentials exist
+        //dataManager
+    }
+
+    override fun onPasswordError() {
+        super.onPasswordError()
+        baseView.setPasswordError(R.string.error_password)
+    }
+
+    override fun onUsernameOrEmailError() {
+        super.onUsernameOrEmailError()
+        baseView.setUsernameError(R.string.error_username)
+    }
+
+    override fun onNetworkDisconnected() {
+        super.onNetworkDisconnected()
+        baseView.displaySnackbar(R.string.error_network_offline, Snackbar.LENGTH_LONG,
+                R.layout.activity_login, true)
+    }
 }

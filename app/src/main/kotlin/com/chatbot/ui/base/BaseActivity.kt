@@ -5,10 +5,16 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import com.chatbot.R
 import com.chatbot.app.ChatBotApp
 import com.chatbot.di.components.ActivityComponent
+import com.chatbot.di.components.AppComponent
 import com.chatbot.di.components.DaggerActivityComponent
 import com.chatbot.di.modules.ActivityModule
 import org.jetbrains.anko.AnkoLogger
@@ -24,6 +30,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, BaseFragment.Callba
     // fields
     lateinit var activityComponent: ActivityComponent
 
+    val appComponent : AppComponent by lazy { (application as ChatBotApp).appComponent }
+
     override val loggerTag: String
         get() = super.loggerTag
 
@@ -32,8 +40,13 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, BaseFragment.Callba
 
         activityComponent = DaggerActivityComponent.builder()
                 .activityModule(ActivityModule(this))
-                .appComponent((application as ChatBotApp).appComponent)
+                .appComponent(appComponent)
                 .build()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -55,6 +68,18 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, BaseFragment.Callba
         super.onDestroy()
     }
 
+    override fun setPasswordError(errorMessage: Int) {
+        setPasswordError(getString(errorMessage))
+    }
+
+    override fun setPasswordError(errorMessage: String) {}
+
+    override fun setUsernameError(errorMessage: String) {}
+
+    override fun setUsernameError(errorMessage: Int) {
+        setUsernameError(getString(errorMessage))
+    }
+
     /**
      * Hides keyboard
      */
@@ -64,6 +89,27 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, BaseFragment.Callba
             val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+
+    override fun displaySnackbar(message: String, length: Int, rootLayout: Int, networkError: Boolean) {
+        val snackbar = Snackbar.make(findViewById<View>(rootLayout), message, length)
+
+        // if this is a network error, display the snackbar action
+        if (networkError) {
+            snackbar.setAction(R.string.action_snackbar_dismiss) {
+                if (snackbar.isShown) {
+                    snackbar.dismiss()
+                }
+            }
+        }
+        val view = snackbar.view
+        val textView = view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
+        textView.setTextColor(ContextCompat.getColor(this, R.color.color_white))
+        snackbar.show()
+    }
+
+    override fun displaySnackbar(message: Int, length: Int, rootLayout: Int, networkError: Boolean) {
+        displaySnackbar(getString(message), length, rootLayout, networkError)
     }
 
     /**

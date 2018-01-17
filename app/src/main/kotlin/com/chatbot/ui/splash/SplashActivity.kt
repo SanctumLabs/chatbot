@@ -2,6 +2,7 @@ package com.chatbot.ui.splash
 
 import android.os.Bundle
 import com.chatbot.R
+import com.chatbot.ui.auth.login.LoginActivity
 import com.chatbot.ui.auth.register.RegisterActivity
 import com.chatbot.ui.base.BaseActivity
 import com.chatbot.ui.main.MainActivity
@@ -55,7 +56,7 @@ class SplashActivity : BaseActivity(), SplashView {
     }
 
     override fun openRegisterScreen() {
-        startActivity<RegisterActivity>()
+        startActivity<LoginActivity>()
         finish()
     }
 

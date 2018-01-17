@@ -30,6 +30,18 @@ constructor(
         compositeDisposable.dispose()
     }
 
+    override fun onNetworkDisconnected() {
+        // this can be used as the presenter inheriting this method sees fit
+    }
+
+    override fun onPasswordError() {
+        // implemented in presenter that will handle forms with passwords
+    }
+
+    override fun onUsernameOrEmailError() {
+        // implemented in presenter that will handle forms with username and email
+    }
+
     /**
      * Checks if the view has been attached */
     val isViewAttached: Boolean

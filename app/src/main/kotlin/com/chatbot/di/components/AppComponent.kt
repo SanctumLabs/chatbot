@@ -4,12 +4,11 @@ import android.app.Application
 import android.content.Context
 import com.chatbot.app.ChatBotApp
 import com.chatbot.data.DataManager
-import com.chatbot.di.modules.AIModule
-import com.chatbot.di.modules.AppModule
-import com.chatbot.di.modules.DatabaseModule
-import com.chatbot.di.modules.FirebaseModule
+import com.chatbot.di.modules.*
 import com.chatbot.di.qualifier.AppCtxQualifier
 import dagger.Component
+import io.reactivex.subjects.PublishSubject
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -17,7 +16,7 @@ import javax.inject.Singleton
  * @Notes app component
  */
 @Singleton
-@Component(modules = arrayOf(AppModule::class, DatabaseModule::class, AIModule::class, FirebaseModule::class))
+@Component(modules = [(AppModule::class), (DatabaseModule::class), (AIModule::class), (FirebaseModule::class), ApiModule::class])
 interface AppComponent {
     fun injectApp(chatBotApp: ChatBotApp)
 
@@ -27,4 +26,10 @@ interface AppComponent {
     fun application(): Application
 
     fun getDataManager(): DataManager
+
+    /**
+     * Network Subject. This is posted based on network events
+     * */
+    @Named("NetworkSubject")
+    fun networkSubject() : PublishSubject<Boolean>
 }

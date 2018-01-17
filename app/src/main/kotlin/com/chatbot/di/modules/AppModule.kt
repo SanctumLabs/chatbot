@@ -7,6 +7,8 @@ import com.chatbot.data.DataManagerImpl
 import com.chatbot.di.qualifier.AppCtxQualifier
 import dagger.Module
 import dagger.Provides
+import io.reactivex.subjects.PublishSubject
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -31,5 +33,11 @@ class AppModule(private val mApplication: Application) {
     @Singleton
     fun provideDataManager(dataManager: DataManagerImpl): DataManager {
         return dataManager
+    }
+
+    @Provides
+    @Named("NetworkSubject")
+    fun provideNetworkSubject() : PublishSubject<Boolean>{
+        return PublishSubject.create()
     }
 }

@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content">
 
                     <EditText
-                            android:id="@+id/et_username"
+                            android:id="@+id/edittext_username"
                             android:textSize="13sp"
                             android:hint="@string/str_username_login_edit_text"
                             android:textColor="#2fa881"
@@ -92,7 +92,7 @@
                             android:textSize="13sp"
                             android:hint="@string/password_edit_text"
                             android:textColor="#2fa881"
-                            android:id="@+id/et_password"
+                            android:id="@+id/edittext_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"

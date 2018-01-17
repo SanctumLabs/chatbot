@@ -13,32 +13,40 @@
             android:roundIcon="@mipmap/ic_launcher"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.main.MainActivity"/>
 
-        <!--Login-->
+        <!-- Login -->
         <activity
                 android:name=".ui.auth.login.LoginActivity"
                 android:theme="@style/Translucent"/>
 
-        <!--Register-->
+        <!-- Register -->
         <activity
                 android:name=".ui.auth.register.RegisterActivity"
                 android:theme="@style/Translucent"/>
 
-        <!--Recover-->
+        <!-- Recover -->
         <activity android:name=".ui.auth.recovery.RecoverPassActivity"/>
 
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="${fabricApiKey}"/>
+
+        <receiver
+                android:name=".receivers.NetworkConnReceiver"
+                android:enabled="true"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

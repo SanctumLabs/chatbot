@@ -2,6 +2,7 @@ package com.chatbot.data
 
 import ai.api.model.AIResponse
 import com.chatbot.data.ai.AiHelper
+import com.chatbot.data.api.ApiHelper
 import com.chatbot.data.db.DbHelper
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 class DataManagerImpl
 @Inject
 constructor(val dbHelper: DbHelper,
-            val aiHelper: AiHelper) : DataManager {
+            val aiHelper: AiHelper,
+            val apiHelper: ApiHelper) : DataManager {
 
     override fun postUserMessage(message: String, user: String) {
         dbHelper.postUserMessage(message, user)
